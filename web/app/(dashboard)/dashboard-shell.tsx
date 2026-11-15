@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LogOut, Mail, Menu, MessageCircle, Users, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logout } from "./actions";
@@ -8,12 +10,22 @@ import { logout } from "./actions";
 // Sidebar on wide screens, a top bar with a menu button on phones.
 // Layout rules: docs/design.md ("Layout").
 
-// Pages come in W1.2 (people, conversations) and W1.3 (invitations).
-// Until a page exists its item is shown but disabled.
+// Until a page exists its item is shown but disabled. `match` says which
+// paths count as that section, for the active state.
 const NAV = [
-  { label: "People", icon: Users, href: null },
-  { label: "Invitations", icon: Mail, href: null },
-  { label: "Conversations", icon: MessageCircle, href: null },
+  {
+    label: "People",
+    icon: Users,
+    href: "/",
+    match: (path: string) => path === "/" || path.startsWith("/people"),
+  },
+  {
+    label: "Invitations",
+    icon: Mail,
+    href: "/invitations",
+    match: (path: string) => path.startsWith("/invitations"),
+  },
+  { label: "Conversations", icon: MessageCircle, href: null, match: null },
 ] as const;
 
 // Inside the dark sidebar the teal focus ring would be invisible (1.6:1),
@@ -29,20 +41,37 @@ function Wordmark() {
   );
 }
 
-function Nav() {
+function Nav({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname();
+
   return (
     <nav aria-label="Dashboard">
       <ul className="flex flex-col gap-1">
-        {NAV.map(({ label, icon: Icon }) => (
+        {NAV.map(({ label, icon: Icon, href, match }) => (
           <li key={label}>
-            <span
-              aria-disabled="true"
-              title="Coming soon"
-              className="flex min-h-11 cursor-not-allowed items-center gap-3 rounded-control px-3 text-sidebar-muted"
-            >
-              <Icon size={18} strokeWidth={1.75} aria-hidden />
-              {label}
-            </span>
+            {href ? (
+              <Link
+                href={href}
+                onClick={onNavigate}
+                aria-current={match?.(pathname) ? "page" : undefined}
+                className={cn(
+                  "flex min-h-11 items-center gap-3 rounded-control px-3 text-sidebar-ink transition-colors hover:bg-sidebar-active aria-[current=page]:bg-sidebar-active aria-[current=page]:font-medium",
+                  sidebarFocus,
+                )}
+              >
+                <Icon size={18} strokeWidth={1.75} aria-hidden />
+                {label}
+              </Link>
+            ) : (
+              <span
+                aria-disabled="true"
+                title="Coming soon"
+                className="flex min-h-11 cursor-not-allowed items-center gap-3 rounded-control px-3 text-sidebar-muted"
+              >
+                <Icon size={18} strokeWidth={1.75} aria-hidden />
+                {label}
+              </span>
+            )}
           </li>
         ))}
       </ul>
@@ -119,7 +148,7 @@ export function DashboardShell({
         </div>
         {menuOpen && (
           <div id="dashboard-menu" className="flex flex-col gap-4 px-4 pb-4">
-            <Nav />
+            <Nav onNavigate={() => setMenuOpen(false)} />
             <Account userName={userName} />
           </div>
         )}

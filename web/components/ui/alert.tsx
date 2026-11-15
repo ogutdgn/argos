@@ -11,6 +11,8 @@ const alertVariants = cva(
       variant: {
         default: "border-border bg-surface text-ink",
         danger: "border-danger/30 bg-danger-soft text-danger",
+        // Gentle "please try again" notes, e.g. a voice sample to re-record.
+        warning: "border-warning/40 bg-surface text-ink [&>svg]:text-warning",
       },
     },
     defaultVariants: {
