@@ -3,16 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Mail, Menu, MessageCircle, Users, X } from "lucide-react";
+import { LogOut, Mail, Menu, MessageCircle, Users, X, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logout } from "./actions";
 
 // Sidebar on wide screens, a top bar with a menu button on phones.
 // Layout rules: docs/design.md ("Layout").
 
-// Until a page exists its item is shown but disabled. `match` says which
-// paths count as that section, for the active state.
-const NAV = [
+// Until a page exists its item is shown but disabled (href null). `match`
+// says which paths count as that section, for the active state.
+type NavItem = {
+  label: string;
+  icon: LucideIcon;
+  href: string | null;
+  match: ((path: string) => boolean) | null;
+};
+
+const NAV: NavItem[] = [
   {
     label: "People",
     icon: Users,
@@ -25,8 +32,13 @@ const NAV = [
     href: "/invitations",
     match: (path: string) => path.startsWith("/invitations"),
   },
-  { label: "Conversations", icon: MessageCircle, href: null, match: null },
-] as const;
+  {
+    label: "Conversations",
+    icon: MessageCircle,
+    href: "/conversations",
+    match: (path: string) => path.startsWith("/conversations"),
+  },
+];
 
 // Inside the dark sidebar the teal focus ring would be invisible (1.6:1),
 // so the ring uses the sidebar text color instead.

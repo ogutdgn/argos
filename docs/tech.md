@@ -79,6 +79,15 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **Order on submit** (no transactions through supabase-js): insert the person, insert their memory items, then use up the link with one conditional UPDATE. A failure before the last step deletes the person again, so the link can be retried and is never used up for a half-saved person. Afterwards, files left in the person's folders by earlier tries are removed.
 - **Leftovers:** a form left after the uploads (never submitted) keeps its files in storage. A server stop between the insert and the last step leaves a person without a used link; a dashboard user can send a new invitation.
 
+## Conversations in the dashboard
+
+> Status: **decided** (2026-11-15, W2.3). Code: `web/app/(dashboard)/conversations/`, `web/lib/supabase/conversations.ts`.
+
+- **List** (`/conversations`), newest first: visitors, start time, length and status ("Being processed", "Ready", "Couldn't be processed").
+- **A conversation's page:** "What Argos learned" (memory items with `source_conversation_id` set), grouped by the person whose memory they went into, visitors first. Second-hand items look like the others and come last in each group, with only a small "told by …" line. Then the full transcript (`transcripts.text`). Speaker segments are not shown yet; W2.2 decides their shape.
+- **Not processed yet or failed:** a calm note instead of the transcript. The `error` column is never shown.
+- **Times** are shown in the viewer's own time zone (`web/components/local-time.tsx`), because the server only knows UTC.
+
 ## Deploy
 
 > Status: **decided** (2026-11-15).

@@ -9,7 +9,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | Path | What |
 |---|---|
 | `app/login/` | dashboard login |
-| `app/(dashboard)/` | people, a person's memory, conversations, invitations; `layout.tsx` checks the dashboard user and has logout |
+| `app/(dashboard)/` | people, a person's memory, conversations, invitations; `layout.tsx` checks the dashboard user and has logout. Conversations read through `lib/supabase/conversations.ts` (conversations, their transcript and what was learned) |
 | `app/invite/[token]/` | magic-link form for invited people |
 | `app/plan/` | live task plan, read from GitHub issues |
 | `app/api/` | endpoints, e.g. the station's "conversation uploaded, process it" call |
