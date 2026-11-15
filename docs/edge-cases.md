@@ -45,6 +45,16 @@ The person did not fill in the form within 1 week.
 The sample is too short, too quiet, or noisy.
 **Decision:** the form asks them to record again before they can submit.
 
+The same recorder and checks are used by the magic-link form and by the dashboard when adding the patient (`web/components/voice-recorder/`, numbers in `checks.ts`). The checks run in the browser on the 16 kHz recording, cut into 30 ms frames:
+
+| Check | Fails when | What the person is asked |
+|---|---|---|
+| Too short | under **20 s** recorded, or under **10 s** of speech in it (frames within 20 dB of the speech level and at least 10 dB above the background) | to read the whole text once more, at an easy pace |
+| Too quiet | speech level (95th percentile of frame loudness) below **−40 dBFS** | to move a little closer to the microphone |
+| Noisy | speech level less than **15 dB** above the background (10th percentile of frame loudness) | to find a quieter spot |
+
+Recording stops on its own at **30 s**. The wording stays warm and never says what went wrong with the person. Format: [tech.md](tech.md) ("Voice samples").
+
 ### Nothing new in the conversation
 The conversation was only small talk.
 **Decision:** save the transcript, add no memory items.

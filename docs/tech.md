@@ -45,6 +45,16 @@ Voice recognition is the biggest risk. Test it before building anything around i
 2. Check that a 3–5 second greeting is matched to the right person, and that an unknown voice is not matched.
 3. If SpeechBrain is not good enough, switch to Picovoice Eagle early.
 
+## Voice samples
+
+> Status: **decided** (2026-11-15, W1.2).
+
+- **Recorded in the browser** by one shared component, `web/components/voice-recorder/`, used by the magic-link form and by the dashboard (adding the patient). The person reads `demo/voice-script.txt` for 20–30 seconds.
+- **Format:** WAV, **16 kHz, mono, 16-bit PCM**, encoded in the browser from Web Audio (about 1 MB for 30 s; the bucket limit is 10 MB). SpeechBrain reads it directly; no webm or mp4.
+- **Raw microphone:** echo cancellation, noise suppression and automatic gain are turned off, so the voiceprint is built from the same kind of sound the station hears.
+- **Checks before it can be accepted:** too short, too quiet, noisy. Thresholds: [edge-cases.md](edge-cases.md) ("Bad voice sample").
+- **Upload:** the server makes a one-time signed upload URL for `voice-samples/{person_id}/{uuid}.wav` (`web/lib/supabase/storage.ts`), the browser uploads straight to it (`web/lib/supabase/upload.ts`), and then the server checks the file is there and sets `people.voice_sample_path`. Files never pass through a Vercel function (4.5 MB body limit). Photos use the same flow (`photos/{person_id}/{uuid}.{jpg|png|webp}`).
+
 ## Deploy
 
 > Status: **decided** (2026-11-15).
