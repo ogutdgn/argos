@@ -15,9 +15,18 @@ Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_UR
 
 Connect the AirPod before starting: one connected later is not seen until a restart ([../docs/edge-cases.md](../docs/edge-cases.md), "Station").
 
+`main.py` runs everything together: one sync pass and a voiceprint refresh at start, then the recorder (it first hands on what an earlier run left), tracker, listener and a background sync every 30 s (voiceprints are refreshed after each pass that changed the people). At start it logs whether the AirPod was found and which keys are missing. Without `SUPABASE_URL` or `SUPABASE_SECRET_KEY` it exits; without `ARGOS_WEB_URL` or `STATION_API_SECRET` it still records and uploads, and calls the endpoint on a later start. Ctrl+C (or SIGTERM) stops it in a safe order and waits up to 2 min for uploads; a second Ctrl+C quits at once. Details: [../docs/tech.md](../docs/tech.md) ("Station start and stop").
+
+Shorter timings for a live test (the defaults are the real 5 min / 30 min rules; `--help` for all options):
+
+```bash
+.venv/bin/python -m argos_station.main --end-after 20 --same-within 60  # away after 20 s, over 60 s after last heard
+.venv/bin/python -m argos_station.main --dry-run                        # log which reminder would play instead of playing it
+```
+
 ### Try one module
 
-Each module has a small test entry (run from `station/`, `--help` for options). None of them is wired into `main.py` until S2.3.
+Each module also has a small test entry, to try it on its own (run from `station/`, `--help` for options). `main.py` wires them all together.
 
 ```bash
 .venv/bin/python -m argos_station.sync --once     # pull people and files into data/ once

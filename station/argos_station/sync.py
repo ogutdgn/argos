@@ -84,6 +84,7 @@ import os
 import tempfile
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -327,8 +328,14 @@ def run_forever(
     interval: float = SYNC_INTERVAL_SECONDS,
     data_dir: Path = DATA_DIR,
     stop: threading.Event | None = None,
+    on_change: Callable[[list[dict[str, Any]]], None] | None = None,
 ) -> None:
-    """Sync every `interval` seconds until `stop` is set. Errors are logged, never raised."""
+    """Sync every `interval` seconds until `stop` is set. Errors are logged, never raised.
+
+    ``on_change(people)`` runs after the first pass that works and after every
+    pass whose people differ from the one before (main.py refreshes the
+    voiceprints there). Its errors are logged too.
+    """
     stop = stop or threading.Event()
     last_people = None
     while not stop.is_set():
@@ -341,6 +348,11 @@ def run_forever(
             if index["people"] != last_people:
                 log.info("synced:\n%s", describe(index["people"]))
                 last_people = index["people"]
+                if on_change is not None:
+                    try:
+                        on_change(index["people"])
+                    except Exception:  # noqa: BLE001 - try again on the next change
+                        log.exception("step after sync failed")
         stop.wait(max(0.0, interval - (time.monotonic() - started)))
 
 
