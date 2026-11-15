@@ -9,13 +9,13 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | Path | What |
 |---|---|
 | `app/login/` | dashboard login |
-| `app/(dashboard)/` | people, a person's memory, conversations; `layout.tsx` checks the dashboard user and has logout |
+| `app/(dashboard)/` | people, a person's memory, conversations, invitations; `layout.tsx` checks the dashboard user and has logout |
 | `app/invite/[token]/` | magic-link form for invited people |
 | `app/plan/` | live task plan, read from GitHub issues |
 | `app/api/` | endpoints, e.g. the station's "conversation uploaded, process it" call |
 | `components/` | shared React components |
 | `components/ui/` | shadcn/ui components, themed with the tokens ([../docs/design.md](../docs/design.md)) |
-| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `auth.ts` for login, `proxy.ts` for the session refresh |
+| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `invitations.ts` for invitations and the magic link, `proxy.ts` for the session refresh |
 | `proxy.ts` | refreshes the login session; sends logged-out visitors to `/login` |
 | `lib/ai/` | reminder sentence + memory extraction |
 | `lib/elevenlabs/` | transcription (Scribe) + reminder voice |
@@ -35,7 +35,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 
 ## Env keys
 
-Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `GITHUB_TOKEN` (server only, in `app/plan/tasks.ts`). Add a key to the root `.env.example` and that list before reading it here.
+Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL` (base of the magic links, in `app/(dashboard)/invitations/actions.ts`), `SUPABASE_SECRET_KEY` (server only, in `lib/supabase/admin.ts`), `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (server only, in `lib/email/`), `GITHUB_TOKEN` (server only, in `app/plan/tasks.ts`). Add a key to the root `.env.example` and that list before reading it here.
 
 ## Deploy
 
