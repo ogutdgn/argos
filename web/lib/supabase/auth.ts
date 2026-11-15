@@ -37,12 +37,12 @@ export async function signIn(
 ): Promise<SignInResult> {
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { ok: false, error: "Wrong email or password." };
+  if (error) return { ok: false, error: "That email and password don't match. Please try again." };
 
   // A valid account that isn't a dashboard user (e.g. no users row yet).
   if (!(await findDashboardUser())) {
     await supabase.auth.signOut();
-    return { ok: false, error: "This account has no dashboard access." };
+    return { ok: false, error: "This account doesn't have access to the dashboard yet." };
   }
   return { ok: true };
 }
