@@ -20,7 +20,7 @@
 
 | Phase | Web | Station | Joint |
 |---|---|---|---|
-| 0. Foundation | W0.1 | S0.1, S0.2 | J0.1 |
+| 0. Foundation | W0.1 → W0.2 | S0.1, S0.2 | J0.1 |
 | 1. Core pieces | W1.1 → W1.2, W1.3 → W1.4 | S1.1 → S1.2, S1.3 → S1.4, S1.5 | |
 | 2. AI and conversations | W2.1, W2.2, W2.3 | S2.1, S2.2 → S2.3 | |
 | 3. Together and demo | | | J3.1 → J3.2 → J3.3, J3.4 |
@@ -43,6 +43,11 @@
 - **Track:** Web · **Depends on:** — · **Branch:** `feat/w0-1-web-skeleton`
 - **What:** Next.js app in `web/` with the folders from [structure.md](structure.md), Supabase client in `web/lib/supabase/`, `web/CLAUDE.md`, deployed to Vercel.
 - **Done when:** an empty page is live on Vercel and can read from Supabase.
+
+### W0.2 Plan page
+- **Track:** Web · **Depends on:** W0.1 · **Branch:** `feat/w0-2-plan-page`
+- **What:** a `/plan` page in the web app that reads the task issues from GitHub (server-side, with a GitHub token stored only in Vercel) and shows them as a swimlane: rows Web, Station, Joint; columns phases 0–3. Each task shows its state (done = closed, in progress = assigned, ready = all dependencies closed, blocked = otherwise), its assignee, and links to its issue. Not linked from the rest of the app, and nothing about real people is shown.
+- **Done when:** closing or assigning an issue on GitHub changes the page on the next reload, with no manual update.
 
 ### S0.1 Station skeleton
 - **Track:** Station · **Depends on:** — · **Branch:** `feat/s0-1-station-skeleton`

@@ -17,7 +17,7 @@ argos/
 ├── docs/          decisions: MVP, flows, memory, tech, structure, edge cases, possible features
 ├── supabase/      database tables and demo seed data, shared by both parts
 ├── web/           Next.js web app: dashboard, magic-link form, AI work
-│   ├── app/       pages: login, dashboard, invite/[token], api
+│   ├── app/       pages: login, dashboard, invite/[token], plan, api
 │   ├── components/
 │   └── lib/       supabase, ai, elevenlabs, email
 ├── station/       Python patient station on the MacBook
