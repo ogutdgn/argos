@@ -1,33 +1,82 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "tailwindcss";
+
+/*
+ * Argos design tokens ("Aegean"). Source of truth: docs/design.md.
+ * Components use these names only (bg-canvas, text-ink, bg-primary, ...),
+ * never hex values. Light mode only for the MVP.
+ */
+@theme {
+  /* Turn off Tailwind's default palette so only the tokens exist. */
+  --color-*: initial;
+
+  --color-canvas: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-subtle: #efece5;
+  --color-border: #e3ded5;
+  --color-border-strong: #948c80;
+  --color-ink: #1f1d1a;
+  --color-muted: #5c574f;
+
+  --color-primary: #1e4d5c;
+  --color-primary-hover: #173c48;
+  --color-primary-soft: #e4eef0;
+  --color-on-primary: #ffffff;
+
+  --color-accent: #8c6a2f;
+  --color-success: #2e6a4e;
+  --color-warning: #8a5a12;
+  --color-danger: #a33a2c;
+  --color-danger-soft: #f8efee;
+
+  --color-sidebar: #1a2b31;
+  --color-sidebar-ink: #edeae3;
+  --color-sidebar-muted: #a3a7a5;
+  --color-sidebar-active: #2f3e43;
+
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Set by next/font in app/layout.tsx. */
+  --font-serif: var(--font-source-serif), Georgia, serif;
+  --font-sans: var(--font-source-sans), system-ui, sans-serif;
+
+  --radius-card: 10px;
+  --radius-control: 8px;
+
+  --shadow-card: 0 1px 2px rgb(31 29 26 / 0.06);
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: var(--ease-out);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    color-scheme: dark;
+@layer base {
+  html {
+    font-size: 16px;
   }
-}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+    line-height: 1.6;
+  }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
-}
+  h1,
+  h2,
+  h3 {
+    @apply font-serif text-ink;
+    line-height: 1.25;
+  }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 3rem 1rem;
+  ::selection {
+    @apply bg-primary-soft text-ink;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
 }
