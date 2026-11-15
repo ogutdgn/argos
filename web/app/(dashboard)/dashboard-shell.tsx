@@ -19,7 +19,12 @@ const NAV = [
     href: "/",
     match: (path: string) => path === "/" || path.startsWith("/people"),
   },
-  { label: "Invitations", icon: Mail, href: null, match: null },
+  {
+    label: "Invitations",
+    icon: Mail,
+    href: "/invitations",
+    match: (path: string) => path.startsWith("/invitations"),
+  },
   { label: "Conversations", icon: MessageCircle, href: null, match: null },
 ] as const;
 
