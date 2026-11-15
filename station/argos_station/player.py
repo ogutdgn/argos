@@ -245,7 +245,7 @@ def main() -> None:
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
-    from argos_station.main import load_env  # .env may set ARGOS_AIRPOD_NAME
+    from argos_station.config import load_env  # .env may set ARGOS_AIRPOD_NAME
 
     load_env()
 

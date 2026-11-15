@@ -15,7 +15,7 @@ Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_UR
 
 ## Where things go
 
-- One job per module in `argos_station/`, as listed in [../docs/structure.md](../docs/structure.md): `sync`, `voiceprints`, `listener`, `recognizer`, `player`, `tracker`, `recorder`. `main.py` only wires them together.
+- One job per module in `argos_station/`, as listed in [../docs/structure.md](../docs/structure.md): `sync`, `voiceprints`, `listener`, `recognizer`, `player`, `tracker`, `recorder`. `main.py` only wires them together. Folders, `.env` loading and the Supabase client come from `config.py`; never import from `main.py`.
 - Dependencies go in `requirements.txt`, pinned (`==`).
 - The station never calls an AI provider. Reminders are made ahead of time by the web app; the station only plays them.
 - Tables in `supabase/migrations/` are the contract with the web app. Read and write them; don't change them from here.
