@@ -24,12 +24,15 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 - **AI provider only in `lib/ai/`.** No OpenAI (or later Google) import anywhere else, so the provider can be swapped by changing that folder.
 - **Supabase only through `lib/supabase/`.** Pages and components call functions there, not `@supabase/*` directly. Tables come from `../supabase/migrations/`; never create or change them from `web/`.
 - **AI and service keys stay on the server.** Only `NEXT_PUBLIC_*` values may reach the browser; everything else is read in server code only.
-- **No secrets in git.** Keys live in `web/.env.local` locally and in Vercel project settings when deployed. `.env*` files are ignored here.
+- **No secrets in git.** Keys live in the repo-root `.env` locally (loaded by `next.config.ts`; template `../.env.example`) and in the Vercel project settings when deployed.
 - **No real personal data.** No real names, voices, photos or conversations in code, fixtures or commits; only the fictional Odyssey family.
 - **Cache Components are on** (`next.config.ts`). Request-time reads (Supabase, cookies) go inside `<Suspense>` and call `connection()` or a runtime API first.
 - Run `npm run lint` and `npm run build` in `web/` before a PR.
 
-## Env keys read by web
+## Env keys
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Add a key to the root `.env.example` and that list before reading it here.
+
+## Deploy
+
+Manual for now: `vercel deploy --prod` from `web/` (Vercel project `argos-web`). Not connected to GitHub yet, so a merge does not deploy by itself. See [../docs/tech.md](../docs/tech.md) ("Deploy").

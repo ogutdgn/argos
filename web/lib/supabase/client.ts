@@ -3,6 +3,6 @@ import { supabaseEnv } from "./env";
 
 // Supabase client for Client Components (code that runs in the browser).
 export function createClient() {
-  const { url, anonKey } = supabaseEnv();
-  return createBrowserClient(url, anonKey);
+  const { url, publishableKey } = supabaseEnv();
+  return createBrowserClient(url, publishableKey);
 }

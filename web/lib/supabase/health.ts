@@ -6,7 +6,7 @@ export type SupabaseHealth =
 
 // Minimal read that needs no tables: list the storage buckets this key can see.
 // A wrong URL or key returns an error; a working connection returns a list
-// (possibly empty, since buckets are private to the anon key by default).
+// (possibly empty, since buckets are private to the publishable key).
 export async function checkSupabase(): Promise<SupabaseHealth> {
   try {
     const supabase = await createClient();
