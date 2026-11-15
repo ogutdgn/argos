@@ -53,10 +53,12 @@ argos/
 │   ├── tests/                unit tests (unittest), no hardware needed
 │   ├── scripts/
 │   │   ├── voice_test.py     the first task (see tech.md)
+│   │   ├── fake_process_endpoint.py   local stand-in for the processing endpoint
 │   │   └── requirements-voice-test.txt   its own dependencies
 │   ├── data/                 local only, git-ignored: synced people and files
 │   │                         (index.json, voice-samples/, reminder-audio/),
-│   │                         voiceprints/, models/ (layout: sync.py docstring)
+│   │                         voiceprints/, models/ (layout: sync.py docstring),
+│   │                         recordings/ (waiting to be uploaded; recorder.py)
 │   └── requirements.txt
 │
 └── demo/                     fictional demo material only
@@ -112,7 +114,7 @@ All private. The exact path is always stored in the row, so the file format is u
 | `recordings` | `{conversation_id}.{ext}` | station | web | 50 MB |
 | `reminder-audio` | `{person_id}/{reminder_id}.mp3` | web | station | 5 MB |
 
-50 MB is the free-plan limit per file, and a 30-minute WAV is larger, so the station uploads recordings compressed (m4a or ogg).
+50 MB is the free-plan limit per file, and a 30-minute WAV is larger, so the station uploads recordings compressed: OGG Opus, `{conversation_id}.ogg` (decided 2026-11-15, S2.2; [tech.md](tech.md), "Recordings").
 
 ### Station → web handoff: the processing endpoint
 
@@ -137,7 +139,7 @@ Unknown-voice conversations are not saved, so they never reach this step.
 | `404` | `{ "error": "conversation_not_found" }` | No such row. |
 | `500` | `{ "error": "internal" }` | Server error. |
 
-The station retries `5xx` and network errors with backoff, and does not retry `4xx`.
+The station retries `5xx` and network errors with backoff, and does not retry `4xx` (numbers: [tech.md](tech.md), "Recordings").
 
 ### Env keys
 

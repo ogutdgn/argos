@@ -81,6 +81,15 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **On failure** (missing keys, an AI or ElevenLabs error, a refused sentence), nothing is saved and the error is logged. The previous reminder stays current; someone with no reminder yet stays silent.
 - **Leftovers:** two changes to the same person within a few seconds can both pick the same hook. Old reminder rows and their audio stay as history; the station only uses the newest. People registered before W2.1 get their first reminder on their next memory change.
 
+## Recordings
+
+> Status: **decided** (2026-11-15, S2.2). Code: `station/argos_station/recorder.py`. What goes into a recording: [edge-cases.md](edge-cases.md) ("What a recording holds").
+
+- **Format:** OGG Opus (`recordings/{conversation_id}.ogg`, `audio/ogg`), **16 kHz mono**, written by libsndfile through `soundfile` (already pinned, no new dependency) as the audio comes in, so a long conversation is never held in memory.
+- **Size:** libsndfile compression level **0.93**, about **24 kbps** even for loud noise (the worst case; speech and silence are smaller). A recording is capped at **4 hours**, about 44 MB, under the 50 MB bucket limit. The size is checked before the upload; a file over the limit is kept locally and not uploaded.
+- **Retries:** upload and inserts **3 tries** (waits 2 s, 4 s). Processing endpoint: **5 tries** for `5xx` and network errors (waits 2, 4, 8, 16 s; 15 s timeout per try); `4xx` is logged and never retried. All three steps are idempotent (upload with upsert, inserts that ignore duplicates, and the endpoint itself).
+- **Local files:** `station/data/recordings/{id}.ogg` plus a job file `{id}.json` (times, visitors, how far it got). The audio is deleted once it is in storage and the rows are in; the job file once the endpoint answered `200`/`202`, or a `4xx` (send it again by hand with `python -m argos_station.recorder --notify <id>`). Anything else is tried again from the step that failed on the next start. When the station stops, it waits up to 2 minutes for uploads in flight.
+
 ## Magic-link registration
 
 > Status: **decided** (2026-11-15, W1.4). Code: `web/app/invite/[token]/`, `web/lib/supabase/registration.ts`.
