@@ -13,7 +13,7 @@
 ## Flow A: Registration
 
 1. From the dashboard, a user invites a person they want to add.
-2. The invitation is sent by **email or SMS** (both are supported) and contains a **magic link**.
+2. The invitation is sent by **email** and contains a **magic link**.
 3. The link opens a form only for that person, with no account and no dashboard access. It **expires after 1 week**.
 4. The person fills in:
    - name
