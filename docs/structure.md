@@ -35,6 +35,8 @@ argos/
 │       ├── ai/               reminder sentence + memory extraction
 │       │                     (provider in one file: OpenAI now, Google later)
 │       ├── reminders/        choosing the hook + making a person's reminder
+│       ├── processing/       processing a conversation: transcript turns,
+│       │                     checking what the AI learned, the steps
 │       ├── elevenlabs/       transcription (Scribe) + reminder voice
 │       └── email/            Resend invitations
 │

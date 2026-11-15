@@ -2,7 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { createAdminClient } from "./admin";
 import { markInvitationUsed, type ValidInvitation } from "./invitations";
-import type { MemoryKind } from "./memory";
+import type { MemoryKind } from "@/lib/memory";
 import {
   createUploadTarget,
   isUploaded,

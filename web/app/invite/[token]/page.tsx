@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { formatDate } from "@/lib/format";
 import { getValidInvitation } from "@/lib/supabase/invitations";
 import { InviteForm } from "./invite-form";
 import { LINK_USED, MessageCard } from "./message";
@@ -58,12 +59,4 @@ async function InviteContent({
   }
 
   return <InviteForm token={token} expiresOn={formatDate(invitation.expiresAt)} />;
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
 }

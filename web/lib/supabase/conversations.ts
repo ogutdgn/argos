@@ -1,6 +1,6 @@
+import { shownKind, type MemoryKind } from "@/lib/memory";
+import { isUuid } from "@/lib/validate";
 import { createClient } from "./server";
-import { shownKind, type MemoryKind } from "./memory";
-import { isUuid } from "./people";
 
 // Conversations for the dashboard (docs/flows.md, Flow C): who was there,
 // the transcript, and the memory items taken from it. Tables:

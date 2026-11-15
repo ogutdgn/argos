@@ -1,10 +1,9 @@
+import { shownKind, type MemoryKind } from "@/lib/memory";
 import { createClient } from "./server";
 
 // The memory_items table (docs/structure.md, "The contract"; rules in
-// docs/memory.md). Dashboard reads and writes use the signed-in user's
-// client, so RLS applies.
-
-export type MemoryKind = "fact" | "shared_memory" | "recent_event" | "follow_up";
+// docs/memory.md and lib/memory.ts). Dashboard reads and writes use the
+// signed-in user's client, so RLS applies.
 
 export type MemoryItem = {
   id: string;
@@ -30,16 +29,6 @@ type MemoryRow = {
   created_at: string;
   told_by: { id: string; name: string } | null;
 };
-
-export const RECENT_EVENT_DAYS = 30;
-
-// Computed when read; nothing rewrites rows (docs/structure.md).
-export function shownKind(kind: MemoryKind, occurredOn: string, today: Date): MemoryKind {
-  if (kind !== "recent_event") return kind;
-  const cutoff = new Date(today);
-  cutoff.setUTCDate(cutoff.getUTCDate() - RECENT_EVENT_DAYS);
-  return occurredOn < cutoff.toISOString().slice(0, 10) ? "fact" : kind;
-}
 
 // A person's memory items, newest first. Call after connection(): it reads
 // today's date.

@@ -69,6 +69,10 @@ Every text pair meets WCAG AA: 4.5:1 for body text, 3:1 for large text and UI bo
 - **Login:** a centered card (max 400 px) on `canvas` with the serif wordmark, a one-line warm subtitle, the fields, and a full-width primary button. Errors show in an inline `danger` alert.
 - **Empty states:** a card with a small icon in a `primary-soft` circle, a short serif heading and one warm sentence on what to do next.
 
+## Dates
+
+One format everywhere, pages and emails: **"15 November 2026"** (decided 2026-11-15; `web/lib/format.ts`). Times of day are shown in the viewer's own time zone (`web/components/local-time.tsx`).
+
 ## Words
 
 Plain, warm, never corrective. Say what happened and what to do next ("That email and password don't match. Please try again."), not what the person did wrong. No jargon, no exclamation marks.

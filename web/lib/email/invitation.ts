@@ -1,5 +1,6 @@
 import "server-only";
 import { Resend } from "resend";
+import { formatDate } from "@/lib/format";
 
 // The invitation email (docs/flows.md, Flow A), sent through Resend.
 // Server only: RESEND_API_KEY never reaches the browser.
@@ -36,14 +37,6 @@ function escapeHtml(text: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
 }
 
 type InvitationEmail = {

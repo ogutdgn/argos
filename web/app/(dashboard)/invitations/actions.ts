@@ -8,6 +8,7 @@ import {
   discardInvitation,
   getInvitation,
 } from "@/lib/supabase/invitations";
+import { isUuid } from "@/lib/validate";
 
 export type InviteState = {
   ok?: boolean;
@@ -17,8 +18,6 @@ export type InviteState = {
 
 // Loose on purpose: the email itself is the real check.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const UUID_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function siteUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") || null;
@@ -82,7 +81,7 @@ export async function sendNewInvitation(
 ): Promise<InviteState> {
   const user = await requireDashboardUser();
   const id = String(formData.get("invitationId") ?? "");
-  const expired = UUID_PATTERN.test(id) ? await getInvitation(id) : null;
+  const expired = isUuid(id) ? await getInvitation(id) : null;
   if (!expired || expired.status !== "expired") {
     refresh();
     return { ok: false, message: "This invitation can't be sent again." };

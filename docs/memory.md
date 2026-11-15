@@ -51,6 +51,12 @@ Extracted from the transcript after a conversation ends:
 
 **Never saved:** the patient's confusion or mistakes. This protects their dignity.
 
+How they are stored (decided 2026-11-15, W2.2):
+- **At most 5 items per conversation,** the most important first, so each person's memory stays short and easy to check.
+- Plans, promises, topics and what the patient enjoyed are **follow-ups** in the visitor's own memory. New events are **recent events**, stable things **facts**, old moments with the patient **shared memories**.
+- What a visitor says about another registered person (the patient included) goes into that person's memory as second-hand, as a recent event or a fact. Follow-ups are never second-hand.
+- Items are dated the day the conversation ended.
+
 ## Control
 
 Dashboard users can **edit and delete** any memory item, for example to fix something extracted wrongly.
