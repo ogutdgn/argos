@@ -7,7 +7,7 @@ The people using Argos are a patient living with dementia and the family around 
 ## Stack
 
 - **Tailwind CSS v4** in `web/` (`tailwindcss`, `@tailwindcss/postcss`, `web/postcss.config.mjs`). `@import "tailwindcss"` and every token live in `web/app/globals.css`, inside `@theme`. Tailwind's default color palette is turned off (`--color-*: initial`), so only the tokens below exist.
-- **shadcn/ui** for components. The source is copied into `web/components/ui/` and themed with the tokens; `cn()` is in `web/lib/utils.ts`. In use so far: `button`, `input`, `label`, `card`, `alert` (variants `default`, `danger`, and `warning` for gentle "please try again" notes such as a voice sample to re-record), `avatar`, `textarea`.
+- **shadcn/ui** for components. The source is copied into `web/components/ui/` and themed with the tokens; `cn()` is in `web/lib/utils.ts`. In use so far: `button`, `input`, `label`, `card`, `alert` (variants `default`, `danger`, and `warning` for gentle "please try again" notes such as a voice sample to re-record), `avatar`, `textarea`, `badge`.
 - **Icons:** `lucide-react`, stroke width 1.75, 16–20 px, `aria-hidden` when next to a text label.
 - **Fonts:** `next/font/google`, downloaded at build time and served from our own site (no runtime call to Google). **Source Serif 4** for headings (`font-serif`), **Source Sans 3** for body and UI (`font-sans`, the default).
 
