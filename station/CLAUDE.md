@@ -11,7 +11,23 @@ python3 -m venv .venv
 .venv/bin/python -m argos_station.main
 ```
 
-Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_URL`, `SUPABASE_SECRET_KEY`. Never commit `.env`.
+Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, and optionally `ARGOS_AIRPOD_NAME` (part of the AirPod's device name, default `AirPods`). Full list: [../docs/structure.md](../docs/structure.md) ("Env keys"). Never commit `.env`.
+
+Connect the AirPod before starting: one connected later is not seen until a restart ([../docs/edge-cases.md](../docs/edge-cases.md), "Station").
+
+### Try one module
+
+Each module has a small test entry (run from `station/`, `--help` for options). None of them is wired into `main.py` until S2.3.
+
+```bash
+.venv/bin/python -m argos_station.sync --once     # pull people and files into data/ once
+.venv/bin/python -m argos_station.voiceprints     # build or refresh voiceprints from data/
+.venv/bin/python -m argos_station.listener        # print speech start/stop and clip events from the MacBook mic
+.venv/bin/python -m argos_station.recognizer      # print who is speaking, "patient" or "unknown"; plays nothing
+.venv/bin/python -m argos_station.player --sample # play a fictional sample reminder into the AirPod
+```
+
+Local files (synced people, voice samples, reminder audio, voiceprints, models) live in `station/data/`, which is git-ignored.
 
 ## Where things go
 
