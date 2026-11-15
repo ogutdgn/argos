@@ -56,6 +56,7 @@ Voice recognition is the biggest risk. Test it before building anything around i
   - `evaluate` results: genuine scores 0.616–0.808 (voice 1: 0.756–0.808, voice 2: 0.616–0.670); highest impostor score 0.293 (voice 1 ↔ voice 2); the stranger's best match 0.084. Separable.
   - Threshold = midpoint of the lowest genuine score (0.616) and the highest impostor score (0.293).
   - Result: 6 of 6 correct, 0 missed, 0 wrong names, the stranger kept silent.
+- **Highest score wins** (decided 2026-11-15, S1.4): the recognizer (`station/argos_station/recognizer.py`) names whoever has the highest score, if it is at or above 0.455, even when someone else is also above it. If the highest is the patient, it says nothing. No minimum gap between the top two scores.
 - **Caveats:** a small sample (2 voices, 1 stranger clip). Voice 2's enrollment was about 9 dB quieter than voice 1's and scored lower. Re-check with the demo family's voices in J3.3.
 - **SpeechBrain is good enough**, so no switch to Picovoice Eagle.
 
