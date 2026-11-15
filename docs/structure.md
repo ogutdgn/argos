@@ -24,6 +24,7 @@ argos/
 │   │   ├── login/            dashboard login
 │   │   ├── (dashboard)/      people, a person's memory, conversations
 │   │   ├── invite/[token]/   magic-link form for invited people
+│   │   ├── plan/             live task plan, read from GitHub issues
 │   │   └── api/              e.g. "a conversation was uploaded, process it"
 │   ├── components/
 │   └── lib/
