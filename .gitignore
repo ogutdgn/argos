@@ -1,0 +1,45 @@
+# Secrets: real keys live only in .env (template: .env.example)
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+build/
+dist/
+.vercel/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+
+# Audio, photos and recordings: real ones go to Supabase storage, never git
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.ogg
+*.opus
+*.webm
+*.flac
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.heif
+*.webp
+station/data/
+# Exception: the web app's own UI assets (icons, logos), never people's photos
+!web/public/**
+
+# OS and editor
+.DS_Store
+*.log
