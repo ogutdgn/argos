@@ -90,6 +90,19 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **Order on submit** (no transactions through supabase-js): insert the person, insert their memory items, then use up the link with one conditional UPDATE. A failure before the last step deletes the person again, so the link can be retried and is never used up for a half-saved person. Afterwards, files left in the person's folders by earlier tries are removed.
 - **Leftovers:** a form left after the uploads (never submitted) keeps its files in storage. A server stop between the insert and the last step leaves a person without a used link; a dashboard user can send a new invitation.
 
+## Conversation processing
+
+> Status: **decided** (2026-11-15, W2.2). Code: `web/app/api/conversations/process/route.ts`, `web/lib/processing/`, `web/lib/ai/extract.ts`, `web/lib/elevenlabs/transcribe.ts`, `web/lib/supabase/processing.ts`. The endpoint's shape: [structure.md](structure.md) ("Station → web handoff").
+
+- **Answer first, work after.** The endpoint checks the secret, claims the conversation (`uploaded` or `failed` → `processing` in one conditional UPDATE, so two calls can't both start it), answers `202`, and does the work inside `after()` (`maxDuration` 300 s).
+- **Transcription:** the recording is downloaded from `recordings` and sent to ElevenLabs Scribe (`scribe_v1`, speakers separated). Words become speaker turns, saved in `transcripts.segments` (`speaker_id`, `name`, `start`, `end`, `text`).
+- **One AI call** (gpt-5-mini, strict JSON) says which speaker is the patient or each visitor, and picks at most 5 memory items ([memory.md](memory.md)). The answer is never trusted: `lib/processing/learned.ts` drops anything that breaks a rule (unknown person, first-hand item about someone who wasn't there, second-hand follow-up, bad kind, empty or over 500 characters, duplicates).
+- **Speaker names:** a speaker is named only if the AI ties it to the patient or a visitor, one to one. Anyone else stays "Speaker 1", "Speaker 2". The transcript text reads "Odysseus: …" per turn.
+- **Saving:** the transcript is upserted and this conversation's memory items are replaced, so a retry after a failure never saves anything twice. Then `processed`.
+- **Reminders:** made again for every visitor, even when nothing new was learned (the hook that just played must not play next time), and for anyone who got a second-hand item.
+- **On failure** (missing keys, Scribe or OpenAI errors, database errors): `failed` with a short `error` for the team; the station can send it again. A failing reminder never fails the conversation.
+- **Leftover:** if the server stops in the middle, the conversation stays `processing` and repeat calls get `200`. Set it back to `uploaded` in Supabase to retry.
+
 ## Conversations in the dashboard
 
 > Status: **decided** (2026-11-15, W2.3). Code: `web/app/(dashboard)/conversations/`, `web/lib/supabase/conversations.ts`.
