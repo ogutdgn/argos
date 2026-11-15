@@ -5,8 +5,10 @@ import { supabaseEnv } from "./env";
 // Supabase client for Server Components, Server Actions and Route Handlers.
 // Create one per request; it reads the login session from cookies.
 export async function createClient() {
-  const { url, publishableKey } = supabaseEnv();
+  // cookies() first: during the build it marks the page as request-time, so
+  // the keys are only read when a real request comes in.
   const cookieStore = await cookies();
+  const { url, publishableKey } = supabaseEnv();
 
   return createServerClient(url, publishableKey, {
     cookies: {
