@@ -10,6 +10,11 @@ Live at https://argos-web-bay.vercel.app. It opens the dashboard login; sign in 
 
 Copy the repo-root `.env.example` to `.env` (in the repo root, not in `web/`) and fill in at least `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase: Project Settings → API Keys, the publishable key); `next.config.ts` loads it. Then in `web/`: `npm install` and `npm run dev`.
 
+Those two are enough for login, people and memory. Invitations and the magic-link form also need:
+- `SUPABASE_SECRET_KEY` (Supabase: Project Settings → API Keys, the secret key; server only),
+- `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (Resend; without them the Invitations page says email isn't set up yet),
+- `NEXT_PUBLIC_SITE_URL`, the base of the magic links (`http://localhost:3000` locally).
+
 The task plan is live at https://argos-web-bay.vercel.app/plan (not linked from the app). Locally it is at `/plan` too and needs `GITHUB_TOKEN` in `.env`: a fine-grained token with read-only access to public repositories is enough.
 
 ## Dashboard users

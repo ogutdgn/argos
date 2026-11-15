@@ -15,7 +15,8 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | `app/api/` | endpoints, e.g. the station's "conversation uploaded, process it" call |
 | `components/` | shared React components |
 | `components/ui/` | shadcn/ui components, themed with the tokens ([../docs/design.md](../docs/design.md)) |
-| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `invitations.ts` for invitations and the magic link, `registration.ts` for saving an invited person from the magic-link form, `proxy.ts` for the session refresh |
+| `components/voice-recorder/` | the shared voice-sample recorder and its checks (`checks.ts`), used by adding the patient and by the magic-link form ([../docs/edge-cases.md](../docs/edge-cases.md), "Bad voice sample") |
+| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `people.ts` for people and the patient, `memory.ts` for memory items, `storage.ts` for signed upload targets and signed URLs (server), `upload.ts` for sending a file to a signed upload URL (browser), `invitations.ts` for invitations and the magic link, `registration.ts` for saving an invited person from the magic-link form, `proxy.ts` for the session refresh |
 | `proxy.ts` | refreshes the login session; sends logged-out visitors to `/login` |
 | `lib/ai/` | reminder sentence + memory extraction |
 | `lib/elevenlabs/` | transcription (Scribe) + reminder voice |
