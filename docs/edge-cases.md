@@ -60,7 +60,8 @@ The same goes for a visitor whose reminder audio has not synced yet. There is on
 
 ### AirPod connected after the station starts
 The station only sees the audio devices that were there when it started (`station/argos_station/player.py`). Re-reading them would restart the audio system and break the listener's mic stream.
-**Decision (found 2026-11-15, S1.5):** until the station is restarted, an AirPod connected later is treated as not connected, so reminders stay silent. Connect the AirPod before starting the station; this goes on the demo checklist (J3.4) and is for S2.3 to keep in mind.
+**Decision (found 2026-11-15, S1.5):** until the station is restarted, an AirPod connected later is treated as not connected, so reminders stay silent. Connect the AirPod before starting the station; this goes on the demo checklist (J3.4).
+At start the station checks for the AirPod and logs it clearly if it is not there (decided 2026-11-15, S2.3, `station/argos_station/main.py`). It keeps running silently; to get reminders, connect the AirPod and restart it.
 
 ### Recording or upload fails
 The recording breaks, or Supabase or the web app cannot be reached when a conversation ends.

@@ -90,6 +90,18 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **Retries:** upload and inserts **3 tries** (waits 2 s, 4 s). Processing endpoint: **5 tries** for `5xx` and network errors (waits 2, 4, 8, 16 s; 15 s timeout per try); `4xx` is logged and never retried. All three steps are idempotent (upload with upsert, inserts that ignore duplicates, and the endpoint itself).
 - **Local files:** `station/data/recordings/{id}.ogg` plus a job file `{id}.json` (times, visitors, how far it got). The audio is deleted once it is in storage and the rows are in; the job file once the endpoint answered `200`/`202`, or a `4xx` (send it again by hand with `python -m argos_station.recorder --notify <id>`). Anything else is tried again from the step that failed on the next start. When the station stops, it waits up to 2 minutes for uploads in flight.
 
+## Station start and stop
+
+> Status: **decided** (2026-11-15, S2.3). Code: `station/argos_station/main.py`. One command from `station/`: `.venv/bin/python -m argos_station.main`.
+
+- **Start, in order:** read `.env`; check the AirPod; load the speaker model once; one sync pass, then a voiceprint refresh; then start the recorder (it hands on what an earlier run left in `data/recordings/`), the tracker, the listener and the background sync. The station listens only after the first sync and refresh, so it starts with the newest voiceprints.
+- **Staying current:** the background sync runs every **30 seconds** (`sync.SYNC_INTERVAL_SECONDS`, `--sync-interval`). After a pass that changed the people (someone added or removed, a new voice sample or reminder), the voiceprints are refreshed. The recognizer notices the new files on its own before the next clip, so no restart is needed. The recognizer and the refresh share one copy of the speaker model.
+- **Missing keys:** no `SUPABASE_URL` or `SUPABASE_SECRET_KEY` → the station exits with a plain message. No `ARGOS_WEB_URL` or `STATION_API_SECRET` → a warning at start; conversations are still recorded and uploaded, and the endpoint is called on a later start once the keys are there. Supabase unreachable at start → a warning, and the station runs on what was synced before.
+- **Missing devices:** no MacBook mic → the station exits (it cannot hear anyone). No AirPod → an error in the log at start, and the station keeps running silently ([edge-cases.md](edge-cases.md), "AirPod connected after the station starts").
+- **Stop (Ctrl+C or SIGTERM), in order:** the listener (the mic closes, nothing new comes in), the tracker (an open conversation ends with `end_reason` "station stopped"), the recorder (waits up to 2 minutes for uploads in flight), then the background sync. A step that fails is logged and the next one still runs. The log ends with "station stopped".
+- **A second Ctrl+C** quits at once. A conversation still being recorded is then lost (its audio stays in `data/recordings/` without a job file and is logged on the next start); one already recorded stays there and is handed on at the next start.
+- **Test timings:** `--end-after`, `--same-within` and `--pause` shorten the tracker's rules for a live test; `--dry-run` logs which reminder would play instead of playing it. The defaults are the real rules (5 min, 30 min, 2 s).
+
 ## Magic-link registration
 
 > Status: **decided** (2026-11-15, W1.4). Code: `web/app/invite/[token]/`, `web/lib/supabase/registration.ts`.
