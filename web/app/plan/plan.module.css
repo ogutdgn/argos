@@ -1,5 +1,23 @@
 .main {
+  /* Was global until the design system (docs/design.md) replaced globals.css;
+     /plan keeps its own look and is not themed with the tokens. */
+  --background: #ffffff;
+  --foreground: #171717;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  line-height: normal;
+}
+
+.main h1 {
+  font-family: inherit;
+  font-size: 2em;
+  font-weight: 700;
 }
 
 .legend {

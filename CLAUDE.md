@@ -17,6 +17,7 @@ Voice companion for people living with dementia: it recognizes a visitor by voic
 | [docs/flows.md](docs/flows.md) | Building any user-facing step: registration, conversation, after the conversation. |
 | [docs/memory.md](docs/memory.md) | Storing, updating or reading memory, or choosing the conversation hook. |
 | [docs/tech.md](docs/tech.md) | Choosing or using any tool, library or service; working on the web app or the patient station. |
+| [docs/design.md](docs/design.md) | Building or changing any UI: colors, fonts, components, layout. |
 | [docs/structure.md](docs/structure.md) | Creating files or folders, or working across `web/`, `station/` and `supabase/`. |
 | [docs/tasks.md](docs/tasks.md) | Starting, picking or finishing a task. Each task names its branch, dependencies and "done when". |
 | [docs/possible-features.md](docs/possible-features.md) | Something seems out of MVP scope. |
