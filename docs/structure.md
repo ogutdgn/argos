@@ -23,12 +23,13 @@ argos/
 │   ├── CLAUDE.md             web-only rules for agents
 │   ├── app/
 │   │   ├── login/            dashboard login
-│   │   ├── (dashboard)/      people, a person's memory, conversations
+│   │   ├── (dashboard)/      people, a person's memory, invitations, conversations
 │   │   ├── invite/[token]/   magic-link form for invited people
 │   │   ├── plan/             live task plan, read from GitHub issues
 │   │   └── api/              e.g. "a conversation was uploaded, process it"
 │   ├── components/
-│   │   └── ui/               shadcn/ui components, themed (design.md)
+│   │   ├── ui/               shadcn/ui components, themed (design.md)
+│   │   └── voice-recorder/   shared voice-sample recorder and checks
 │   └── lib/
 │       ├── supabase/         database and storage access
 │       ├── ai/               reminder sentence + memory extraction
