@@ -46,12 +46,11 @@ Voice recognition is the biggest risk. Test it before building anything around i
 
 ## Deploy
 
-> Status: **decided** (2026-11-14), temporary.
+> Status: **decided** (2026-11-15).
 
-- **Live site:** https://argos-web-bay.vercel.app.
-- **Now: manual.** The web app is deployed to Vercel with the Vercel CLI (`vercel deploy --prod` from `web/`, project `argos-web`). Merging to `main` does not update the live site; whoever wants it live runs the deploy from an up-to-date `main`. Steps: [web/README.md](../web/README.md).
-- **Why:** the Vercel project cannot connect to the GitHub repo until the repo owner (`ogutdgn`) installs the Vercel GitHub app on `ogutdgn/argos`.
-- **Later: automatic.** Once the app is installed, connect the project to the repo with Root Directory `web`, so every merge to `main` deploys and every PR gets a preview.
+- **Live site:** https://argos-web-bay.vercel.app. Task plan: https://argos-web-bay.vercel.app/plan.
+- **Automatic.** The Vercel project `argos-web` is connected to `ogutdgn/argos` with Root Directory `web`. Every merge to `main` deploys to production, and every PR gets a preview link.
+- **Manual fallback:** `vercel deploy --prod` from the **repo root** (not `web/`, because the Root Directory is already `web`). Steps: [web/README.md](../web/README.md).
 - Env vars for the live site live in the Vercel project settings, not in `.env`.
 
 ## Repo structure
