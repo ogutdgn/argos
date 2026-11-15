@@ -16,6 +16,7 @@ Every item has a **date**.
 | Conversation history | Full transcripts + the important things taken from them | Conversations |
 
 - **Recent events go stale:** they count as "recent" for **30 days**, then become plain facts.
+- **From registration:** the magic-link form has three boxes, one item per line: "About your life" (facts), "Memories you share" (shared memories) and "Recent news" (recent events). They are first-hand and dated the day the person registers. At least one item is needed, so there is always a hook.
 
 ## Information about other people
 

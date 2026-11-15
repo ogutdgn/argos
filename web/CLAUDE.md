@@ -15,7 +15,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | `app/api/` | endpoints, e.g. the station's "conversation uploaded, process it" call |
 | `components/` | shared React components |
 | `components/ui/` | shadcn/ui components, themed with the tokens ([../docs/design.md](../docs/design.md)) |
-| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `invitations.ts` for invitations and the magic link, `proxy.ts` for the session refresh |
+| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `invitations.ts` for invitations and the magic link, `registration.ts` for saving an invited person from the magic-link form, `proxy.ts` for the session refresh |
 | `proxy.ts` | refreshes the login session; sends logged-out visitors to `/login` |
 | `lib/ai/` | reminder sentence + memory extraction |
 | `lib/elevenlabs/` | transcription (Scribe) + reminder voice |

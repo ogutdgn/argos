@@ -69,6 +69,15 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **Checks before it can be accepted:** too short, too quiet, noisy. Thresholds: [edge-cases.md](edge-cases.md) ("Bad voice sample").
 - **Upload:** the server makes a one-time signed upload URL for `voice-samples/{person_id}/{uuid}.wav` (`web/lib/supabase/storage.ts`), the browser uploads straight to it (`web/lib/supabase/upload.ts`), and then the server checks the file is there and sets `people.voice_sample_path`. Files never pass through a Vercel function (4.5 MB body limit). Photos use the same flow (`photos/{person_id}/{uuid}.{jpg|png|webp}`).
 
+## Magic-link registration
+
+> Status: **decided** (2026-11-15, W1.4). Code: `web/app/invite/[token]/`, `web/lib/supabase/registration.ts`.
+
+- **Nobody is signed in,** so the form's server actions use the secret key, and each one checks the link token again first.
+- **The person's id comes from the invitation** (a version 8 UUID from a SHA-256 of the invitation id), never from the browser. Uploads go to that id's folders only, a path is accepted only under them, and a second submit for the same link hits the `people` primary key.
+- **Order on submit** (no transactions through supabase-js): insert the person, insert their memory items, then use up the link with one conditional UPDATE. A failure before the last step deletes the person again, so the link can be retried and is never used up for a half-saved person. Afterwards, files left in the person's folders by earlier tries are removed.
+- **Leftovers:** a form left after the uploads (never submitted) keeps its files in storage. A server stop between the insert and the last step leaves a person without a used link; a dashboard user can send a new invitation.
+
 ## Deploy
 
 > Status: **decided** (2026-11-15).
