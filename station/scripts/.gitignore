@@ -1,0 +1,4 @@
+# Real voice recordings never go into git.
+voices/
+pretrained_models/
+*.wav
