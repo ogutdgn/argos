@@ -11,7 +11,7 @@ python3 -m venv .venv
 .venv/bin/python -m argos_station.main
 ```
 
-Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`. Never commit `.env`.
+Keys come from `station/.env` (falls back to the repo-root `.env`): `SUPABASE_URL`, `SUPABASE_SECRET_KEY`. Never commit `.env`.
 
 ## Where things go
 
