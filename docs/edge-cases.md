@@ -35,6 +35,15 @@ How the station applies it (decided 2026-11-15, S2.1, `station/argos_station/tra
 - **Someone new while the others are away** (for example Telemachus arrives after Odysseus left 10 minutes ago): the old conversation ends there, and a new one starts with its own reminder.
 - **Only a recognized visitor counts as heard.** The patient's voice, unknown voices and speech too short to recognize (under 3 s) do not keep a conversation going.
 
+### What a recording holds
+Only conversations the tracker opened (a recognized visitor) are recorded, so a conversation with only unknown voices is never recorded or saved.
+**Decision (2026-11-15, S2.2, `station/argos_station/recorder.py`):**
+- **The greeting is kept.** The station holds the last **10 seconds** of mic audio in memory only. When a conversation starts, they go first into the recording, so the 3–5 s greeting that led to the recognition is in it. Older audio is dropped and never written anywhere.
+- **The away gap is cut out.** When the visitors count as away (5 minutes not heard), the recording pauses. If one of them comes back within 30 minutes, it goes on, again starting with the 10 seconds before the return. What the room heard in between is not kept.
+- **The end.** A conversation that ended because nobody came back stopped recording when it went away, so the recording ends about 5 minutes after the visitors were last heard (the goodbye is in it). `conversations.started_at` and `ended_at` stay the tracker's times (first recognized, last heard).
+- **Station stopped.** A conversation open when the station is stopped (`end_reason` "station stopped") is uploaded like any other.
+- **At most 4 hours** per recording; past that nothing more is written and the first 4 hours are uploaded.
+
 ### Patient forgets mid-conversation
 The patient got the reminder, but loses track later in the same conversation.
 **Decision:** in the MVP the reminder does not repeat. A "hear it again" option is a possible feature ([possible-features.md](possible-features.md)).
@@ -52,6 +61,10 @@ The same goes for a visitor whose reminder audio has not synced yet. There is on
 ### AirPod connected after the station starts
 The station only sees the audio devices that were there when it started (`station/argos_station/player.py`). Re-reading them would restart the audio system and break the listener's mic stream.
 **Decision (found 2026-11-15, S1.5):** until the station is restarted, an AirPod connected later is treated as not connected, so reminders stay silent. Connect the AirPod before starting the station; this goes on the demo checklist (J3.4) and is for S2.3 to keep in mind.
+
+### Recording or upload fails
+The recording breaks, or Supabase or the web app cannot be reached when a conversation ends.
+**Decision (2026-11-15, S2.2):** nothing plays and the station keeps running; it is logged. A broken recording is not uploaded. The steps run in order (upload, then the rows, then the processing endpoint), and a row is never inserted for a file that did not upload. What did not finish stays in `station/data/recordings/` and is tried again from the step that failed when the station next starts. Numbers: [tech.md](tech.md) ("Recordings").
 
 ## Registration and memory
 
