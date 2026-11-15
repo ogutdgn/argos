@@ -14,6 +14,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | `app/plan/` | live task plan, read from GitHub issues |
 | `app/api/` | endpoints, e.g. the station's "conversation uploaded, process it" call |
 | `components/` | shared React components |
+| `components/ui/` | shadcn/ui components, themed with the tokens ([../docs/design.md](../docs/design.md)) |
 | `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `auth.ts` for login, `proxy.ts` for the session refresh |
 | `proxy.ts` | refreshes the login session; sends logged-out visitors to `/login` |
 | `lib/ai/` | reminder sentence + memory extraction |
@@ -28,6 +29,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 - **No secrets in git.** Keys live in the repo-root `.env` locally (loaded by `next.config.ts`; template `../.env.example`) and in the Vercel project settings when deployed.
 - **No real personal data.** No real names, voices, photos or conversations in code, fixtures or commits; only the fictional Odyssey family.
 - **Dashboard pages are private by default.** Every route needs a signed-in dashboard user (an Auth account plus a `users` row) except the ones listed in `PUBLIC_PATHS` in `proxy.ts`: `/login`, `/invite/…`, `/plan`, `/api/…`. Put new dashboard pages under `app/(dashboard)/` so its layout checks the user; Server Actions and Route Handlers check the user themselves (`requireDashboardUser()` in `lib/supabase/auth.ts`). Creating dashboard users: [README.md](README.md) ("Dashboard users").
+- **UI follows [`../docs/design.md`](../docs/design.md):** Tailwind with the theme tokens only (no hex in components), shadcn components from `components/ui/`.
 - **Cache Components are on** (`next.config.ts`). Request-time reads (Supabase, cookies) go inside `<Suspense>` and call `connection()` or a runtime API first.
 - Run `npm run lint` and `npm run build` in `web/` before a PR.
 
