@@ -89,7 +89,7 @@ How the rules in [memory.md](memory.md) map onto it:
 - **Current reminder:** the newest `reminders` row per person. The web inserts the row only after the audio is uploaded.
 - **New voice sample:** each upload gets a new path, so the station recomputes a voiceprint when `voice_sample_path` changes.
 
-**Access (RLS):** on for every table. Signed-in users with a row in `users` get full access (`is_dashboard_user()`); everyone else gets nothing. The web server (magic-link form, processing) and the station use the secret key, which bypasses RLS.
+**Access (RLS):** on for every table. Signed-in users with a row in `users` get full access (`private.is_dashboard_user()`, kept out of the API); everyone else gets nothing. The web server (magic-link form, processing) and the station use the secret key, which bypasses RLS.
 
 ### Storage buckets
 
