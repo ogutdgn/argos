@@ -10,6 +10,8 @@ Live at https://argos-web-bay.vercel.app. The page says whether it can read from
 
 Copy the repo-root `.env.example` to `.env` (in the repo root, not in `web/`) and fill in at least `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase: Project Settings → API Keys, the publishable key); `next.config.ts` loads it. Then in `web/`: `npm install` and `npm run dev`.
 
+The task plan is at http://localhost:3000/plan (not linked from the app). It needs `GITHUB_TOKEN` in `.env`: a fine-grained token with read-only access to public repositories is enough.
+
 ## Deploy
 
 For now, deploys to https://argos-web-bay.vercel.app are manual with the Vercel CLI. The Vercel project (`argos-web`) is not connected to GitHub yet, so merging to `main` does **not** update the live site.

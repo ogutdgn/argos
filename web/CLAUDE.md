@@ -31,7 +31,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 
 ## Env keys
 
-Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Add a key to the root `.env.example` and that list before reading it here.
+Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `GITHUB_TOKEN` (server only, in `app/plan/tasks.ts`). Add a key to the root `.env.example` and that list before reading it here.
 
 ## Deploy
 
