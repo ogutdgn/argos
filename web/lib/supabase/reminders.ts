@@ -2,7 +2,7 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 import type { HookCandidate } from "@/lib/reminders/hook";
 import { createAdminClient } from "./admin";
-import { shownKind, type MemoryKind } from "./memory";
+import { shownKind, type MemoryKind } from "@/lib/memory";
 
 // The reminders table and the reminder-audio bucket (docs/structure.md, "The
 // contract"). Reminders are made after a response has gone out (dashboard

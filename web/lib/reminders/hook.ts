@@ -12,11 +12,11 @@
 // The previous reminder's hook is never chosen again. Nothing left → null,
 // and the reminder is name + relationship only.
 
-export type HookKind = "fact" | "shared_memory" | "recent_event" | "follow_up";
+import type { MemoryKind } from "@/lib/memory";
 
 export type HookCandidate = {
   id: string;
-  kind: HookKind; // as read today: a stale recent_event is already "fact"
+  kind: MemoryKind; // as read today: a stale recent_event is already "fact"
   content: string;
   occurredOn: string; // YYYY-MM-DD
   createdAt: string; // ISO timestamp

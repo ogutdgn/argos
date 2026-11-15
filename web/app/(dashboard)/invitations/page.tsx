@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { formatDate } from "@/lib/format";
 import { listInvitations, type Invitation } from "@/lib/supabase/invitations";
 import { InviteForm } from "./invite-form";
 import { SendNewButton } from "./send-new-button";
@@ -58,13 +59,6 @@ const BADGE = {
   used: { label: "Used", variant: "success" },
   expired: { label: "Expired", variant: "muted" },
 } as const;
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-  });
-}
 
 function detail(invitation: Invitation) {
   const sent = `Sent ${formatDate(invitation.createdAt)}`;

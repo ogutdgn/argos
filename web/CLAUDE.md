@@ -23,6 +23,9 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | `lib/reminders/` | `hook.ts` chooses the hook (plain logic); `regenerate.ts` makes a person's next reminder. Call `after(() => regenerateReminder(personId))` whenever a person's memory changes ([../docs/tech.md](../docs/tech.md), "Reminders") |
 | `lib/elevenlabs/` | `speech.ts` for the reminder voice; `transcribe.ts` for transcription (Scribe) |
 | `lib/email/` | Resend invitations |
+| `lib/memory.ts` | memory rules shared everywhere: `MemoryKind`, and `shownKind()` (a recent event older than 30 days reads as a fact) |
+| `lib/validate.ts` | checks for values from outside (`isUuid`) |
+| `lib/format.ts` | `formatDate()`: the one date format, "15 November 2026", for pages and emails; times of day: `components/local-time.tsx` |
 
 ## Rules
 

@@ -1,13 +1,12 @@
 import "server-only";
-import type { ConversationContext, KnownPerson, LearnedItem } from "@/lib/processing/learned";
+import type { ConversationContext, ExtractedItem, KnownPerson } from "@/lib/processing/learned";
 import type { Segment } from "@/lib/processing/transcript";
 import { createAdminClient } from "./admin";
+import type { ConversationStatus } from "./conversations";
 
 // Conversation processing (docs/structure.md, "Station → web handoff"). It
 // runs for the station's call, with nobody signed in, so it uses the secret
 // key and only touches the one conversation it was given.
-
-export type ConversationStatus = "uploaded" | "processing" | "processed" | "failed";
 
 export async function getConversationStatus(id: string): Promise<ConversationStatus | null> {
   const supabase = createAdminClient();
@@ -101,7 +100,7 @@ export async function downloadRecording(path: string): Promise<Blob> {
 // retry after a failure starts clean, so nothing is saved twice.
 export async function saveResults(
   id: string,
-  results: { text: string; segments: Segment[]; items: LearnedItem[]; occurredOn: string },
+  results: { text: string; segments: Segment[]; items: ExtractedItem[]; occurredOn: string },
 ): Promise<void> {
   const supabase = createAdminClient();
 

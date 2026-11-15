@@ -1,8 +1,8 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { after, NextResponse } from "next/server";
 import { processConversation } from "@/lib/processing/process";
-import { isUuid } from "@/lib/supabase/people";
 import { claimConversation, getConversationStatus } from "@/lib/supabase/processing";
+import { isUuid } from "@/lib/validate";
 
 // The station calls this after uploading a conversation (docs/structure.md,
 // "Station → web handoff"). It answers at once; the work runs in after():

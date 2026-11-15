@@ -6,7 +6,7 @@ import { after } from "next/server";
 import { regenerateReminder } from "@/lib/reminders/regenerate";
 import { requireDashboardUser } from "@/lib/supabase/auth";
 import { deleteMemoryItem, updateMemoryItem } from "@/lib/supabase/memory";
-import { createPatient, getPatient, isUuid } from "@/lib/supabase/people";
+import { createPatient, getPatient } from "@/lib/supabase/people";
 import {
   createUploadTarget,
   isPhotoType,
@@ -14,6 +14,7 @@ import {
   PHOTO_TYPES,
   type UploadTarget,
 } from "@/lib/supabase/storage";
+import { isUuid } from "@/lib/validate";
 
 // Every action checks the dashboard user itself: Server Actions can be called
 // with a direct POST, not only from our pages.

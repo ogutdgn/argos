@@ -3,10 +3,12 @@
 // what people said, so its answer is never trusted: anything that breaks a
 // rule below is dropped. Plain logic, so it can be checked with sample data.
 
+import type { MemoryKind } from "@/lib/memory";
+
 export const MAX_ITEMS = 5; // per conversation (decided 2026-11-15, W2.2)
 export const MAX_CONTENT = 500;
 
-export type MemoryKind = "fact" | "shared_memory" | "recent_event" | "follow_up";
+// The kinds a model's answer may use (all of MemoryKind), checked at run time.
 const KINDS: readonly MemoryKind[] = ["fact", "shared_memory", "recent_event", "follow_up"];
 
 export type KnownPerson = {
@@ -22,7 +24,7 @@ export type ConversationContext = {
   people: KnownPerson[]; // everyone registered, the patient and visitors included
 };
 
-export type LearnedItem = {
+export type ExtractedItem = {
   personId: string; // whose memory it goes into
   toldByPersonId: string | null; // set = second-hand: the visitor who said it
   kind: MemoryKind;
@@ -31,7 +33,7 @@ export type LearnedItem = {
 
 export type CheckedExtraction = {
   speakerNames: Map<string, string>; // Scribe speaker id → name
-  items: LearnedItem[];
+  items: ExtractedItem[];
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -82,11 +84,11 @@ function checkSpeakers(
 //   first-hand only;
 // - known kinds, non-empty text up to MAX_CONTENT, no duplicates;
 // - at most MAX_ITEMS, in the model's order (most important first).
-function checkItems(raw: unknown, context: ConversationContext): LearnedItem[] {
+function checkItems(raw: unknown, context: ConversationContext): ExtractedItem[] {
   const registered = new Set(context.people.map((p) => p.id));
   const visitors = new Set(context.visitors.map((v) => v.id));
   const seen = new Set<string>();
-  const items: LearnedItem[] = [];
+  const items: ExtractedItem[] = [];
 
   for (const r of list(raw)) {
     const personId = r.person_id;

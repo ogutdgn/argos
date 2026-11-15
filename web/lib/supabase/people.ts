@@ -1,3 +1,4 @@
+import { isUuid } from "@/lib/validate";
 import { createClient } from "./server";
 import { signedUrls } from "./storage";
 
@@ -31,12 +32,6 @@ type PersonRow = {
 
 const COLUMNS =
   "id, name, relationship, is_patient, photo_path, voice_sample_path, created_at";
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-export function isUuid(value: unknown): value is string {
-  return typeof value === "string" && UUID.test(value);
-}
 
 function toPerson(row: PersonRow): Person {
   return {

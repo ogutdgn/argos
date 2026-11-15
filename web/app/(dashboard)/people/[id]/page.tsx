@@ -5,7 +5,9 @@ import { BookOpen } from "lucide-react";
 import { BackLink } from "@/components/back-link";
 import { PatientBadge, PersonAvatar } from "@/components/person-avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { listMemoryItems, type MemoryItem, type MemoryKind } from "@/lib/supabase/memory";
+import { formatDate } from "@/lib/format";
+import type { MemoryKind } from "@/lib/memory";
+import { listMemoryItems, type MemoryItem } from "@/lib/supabase/memory";
 import { getPatient, getPerson, type PersonWithMedia } from "@/lib/supabase/people";
 import { MemoryItemRow } from "./memory-item";
 
@@ -91,7 +93,7 @@ function ProfileCard({ person }: { person: PersonWithMedia }) {
             )}
           </dd>
           <dt className="text-sm font-medium text-muted">Added</dt>
-          <dd>{formatDate(person.createdAt.slice(0, 10))}</dd>
+          <dd>{formatDate(person.createdAt)}</dd>
         </dl>
       </CardContent>
     </Card>
@@ -188,13 +190,4 @@ function MemoryCard({
       </CardContent>
     </Card>
   );
-}
-
-function formatDate(isoDate: string) {
-  return new Date(`${isoDate}T00:00:00Z`).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 }

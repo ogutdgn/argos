@@ -10,7 +10,7 @@ import {
   type ConversationDetails,
   type LearnedItem,
 } from "@/lib/supabase/conversations";
-import type { MemoryKind } from "@/lib/supabase/memory";
+import type { MemoryKind } from "@/lib/memory";
 import { duration, StatusBadge, visitorNames } from "../format";
 
 // One conversation: who was there, what Argos learned, and the full
