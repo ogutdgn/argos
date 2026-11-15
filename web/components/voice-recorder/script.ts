@@ -1,0 +1,4 @@
+// The text people read for their voice sample. Same text as
+// demo/voice-script.txt (used by the station's voice test); keep them in sync.
+export const VOICE_SCRIPT =
+  "Every morning I walk to the garden behind the house. The fig tree is older than I am, and the pear trees still give fruit each autumn. I like to sit on the bench by the gate, drink a warm cup of tea, and listen to the birds. When the family visits, we talk about the harvest, the sea, and the long road home. Then we laugh, share some bread, and stay until the sun goes down.";
