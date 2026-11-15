@@ -10,7 +10,7 @@ from supabase import Client, create_client
 STATION_DIR = Path(__file__).resolve().parents[1]
 REPO_DIR = STATION_DIR.parent
 
-REQUIRED_KEYS = ("SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY")
+REQUIRED_KEYS = ("SUPABASE_URL", "SUPABASE_SECRET_KEY")
 
 
 def load_env() -> None:
@@ -23,7 +23,7 @@ def connect() -> Client:
     missing = [key for key in REQUIRED_KEYS if not os.environ.get(key)]
     if missing:
         sys.exit(f"Missing in .env: {', '.join(missing)}")
-    return create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_SERVICE_ROLE_KEY"])
+    return create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_SECRET_KEY"])
 
 
 def main() -> None:
