@@ -34,6 +34,7 @@ argos/
 │       ├── supabase/         database and storage access
 │       ├── ai/               reminder sentence + memory extraction
 │       │                     (provider in one file: OpenAI now, Google later)
+│       ├── reminders/        choosing the hook + making a person's reminder
 │       ├── elevenlabs/       transcription (Scribe) + reminder voice
 │       └── email/            Resend invitations
 │
