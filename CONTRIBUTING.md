@@ -29,12 +29,15 @@ Format: `<type>(<scope>): <imperative summary>`
 
 `<scope>` is one of:
 
-- `docs`: anything under `docs/` (`mvp.md`, `possible-features.md`, `edge-cases.md`).
+- `web`: anything under `web/` (Next.js app).
+- `station`: anything under `station/` (Python patient station).
+- `supabase`: anything under `supabase/` (database tables, seed data).
+- `docs`: anything under `docs/`.
 - `skills`: anything under `.claude/`.
-- `repo`: repo-root files (`README.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `.gitignore`, config) or cross-cutting changes.
+- `repo`: repo-root files (`README.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `.gitignore`, config), `demo/`, or cross-cutting changes.
 - `restructure`: large structural changes (rare).
 
-Code scopes (for example one per app area) will be added here once the project structure is decided. Until then, do not invent new scopes.
+Do not invent other scopes. Folder layout: `docs/structure.md`.
 
 Use the imperative form, start with a lowercase word, and keep the subject under 72 characters.
 

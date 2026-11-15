@@ -16,6 +16,8 @@ Voice companion for people living with dementia: it recognizes a visitor by voic
 | [docs/mvp.md](docs/mvp.md) | Always. The source of truth for scope. |
 | [docs/flows.md](docs/flows.md) | Building any user-facing step: registration, conversation, after the conversation. |
 | [docs/memory.md](docs/memory.md) | Storing, updating or reading memory, or choosing the conversation hook. |
+| [docs/tech.md](docs/tech.md) | Choosing or using any tool, library or service; working on the web app or the patient station. |
+| [docs/structure.md](docs/structure.md) | Creating files or folders, or working across `web/`, `station/` and `supabase/`. |
 | [docs/possible-features.md](docs/possible-features.md) | Something seems out of MVP scope. |
 | [docs/edge-cases.md](docs/edge-cases.md) | Handling unusual or failure situations. |
 
