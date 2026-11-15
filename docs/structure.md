@@ -49,6 +49,7 @@ argos/
 │   │   ├── player.py         plays the reminder into the AirPod
 │   │   ├── tracker.py        conversation start/end, 5 min and 30 min rules
 │   │   └── recorder.py       records and uploads the conversation
+│   ├── tests/                unit tests (unittest), no hardware needed
 │   ├── scripts/
 │   │   ├── voice_test.py     the first task (see tech.md)
 │   │   └── requirements-voice-test.txt   its own dependencies
