@@ -40,6 +40,7 @@ argos/
 │   ├── CLAUDE.md             station-only rules for agents
 │   ├── argos_station/
 │   │   ├── main.py           starts everything
+│   │   ├── config.py         folders, .env keys, Supabase client (shared)
 │   │   ├── sync.py           pulls people, voice samples, reminder audio
 │   │   ├── voiceprints.py    voice sample → voiceprint
 │   │   ├── listener.py       mic + speech detection

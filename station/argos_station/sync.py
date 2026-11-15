@@ -91,7 +91,7 @@ from typing import Any
 
 from supabase import Client
 
-from argos_station.main import STATION_DIR, connect, load_env
+from argos_station.config import STATION_DIR, connect, load_env
 
 DATA_DIR = STATION_DIR / "data"
 INDEX_NAME = "index.json"
