@@ -350,7 +350,10 @@ class Recorder:
         """Start the upload thread and queue what an earlier run left in data/recordings/."""
         if self._thread is not None:
             return
-        for conversation_id in self.pending():
+        pending = self.pending()
+        if pending:
+            log.info("%d conversation(s) from an earlier run waiting in %s; handing them on", len(pending), self.dir)
+        for conversation_id in pending:
             self._jobs.put(conversation_id)
         self._thread = threading.Thread(target=self._upload_loop, name="recorder-upload", daemon=True)
         self._thread.start()
