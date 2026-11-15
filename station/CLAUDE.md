@@ -25,6 +25,13 @@ Each module has a small test entry (run from `station/`, `--help` for options). 
 .venv/bin/python -m argos_station.listener        # print speech start/stop and clip events from the MacBook mic
 .venv/bin/python -m argos_station.recognizer      # print who is speaking, "patient" or "unknown"; plays nothing
 .venv/bin/python -m argos_station.player --sample # play a fictional sample reminder into the AirPod
+.venv/bin/python -m argos_station.tracker --end-after 20 --same-within 60  # listener + recognizer + tracker + player, short timers
+```
+
+Unit tests (no mic, AirPod or Supabase needed):
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
 Local files (synced people, voice samples, reminder audio, voiceprints, models) live in `station/data/`, which is git-ignored.

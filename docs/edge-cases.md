@@ -21,12 +21,19 @@ A registered visitor sounds different (for example, they have a cold).
 ### Two visitors at once
 Two registered visitors arrive together (for example Odysseus and Penelope).
 **Decision:** one reminder for each, one after the other with a short pause. Each still plays only once per conversation.
+The pause is **2 seconds** of silence after the first reminder ends (decided 2026-11-15, S2.1). A visitor heard while a conversation is going on joins it and gets their own reminder the same way.
 
 ## Conversation
 
 ### Visitor leaves for a short time
 The visitor steps out (for example to the restroom) for around 10 minutes. By Flow C, the conversation ends after 5 minutes without their voice.
 **Decision:** if they come back within **30 minutes**, it is the same conversation. No new reminder, and the memory update waits until they really leave.
+
+How the station applies it (decided 2026-11-15, S2.1, `station/argos_station/tracker.py`):
+- **The clock starts when they were last heard.** After **5 minutes** without any of the conversation's visitors, they count as away. If one of them is heard again within **30 minutes** of when they were last heard, it is the same conversation.
+- **The conversation ends 30 minutes after the visitors were last heard**, and only then is it handed on (recording, memory update). Its end time (`ended_at`) is when they were last heard, not when the station noticed.
+- **Someone new while the others are away** (for example Telemachus arrives after Odysseus left 10 minutes ago): the old conversation ends there, and a new one starts with its own reminder.
+- **Only a recognized visitor counts as heard.** The patient's voice, unknown voices and speech too short to recognize (under 3 s) do not keep a conversation going.
 
 ### Patient forgets mid-conversation
 The patient got the reminder, but loses track later in the same conversation.
@@ -40,6 +47,7 @@ The patient got the reminder, but loses track later in the same conversation.
 ### AirPod not connected
 The AirPod is off, out of range, or not paired when a reminder should play.
 **Decision:** play nothing and log it. Never fall back to the MacBook speakers.
+The same goes for a visitor whose reminder audio has not synced yet. There is one try per visitor per conversation (decided 2026-11-15, S2.1): a reminder that did not play is not tried again later in that conversation, so it never interrupts the talk late.
 
 ### AirPod connected after the station starts
 The station only sees the audio devices that were there when it started (`station/argos_station/player.py`). Re-reading them would restart the audio system and break the listener's mic stream.
