@@ -2,6 +2,8 @@
 
 import { randomUUID } from "node:crypto";
 import { refresh } from "next/cache";
+import { after } from "next/server";
+import { regenerateReminder } from "@/lib/reminders/regenerate";
 import { requireDashboardUser } from "@/lib/supabase/auth";
 import { deleteMemoryItem, updateMemoryItem } from "@/lib/supabase/memory";
 import { createPatient, getPatient, isUuid } from "@/lib/supabase/people";
@@ -43,15 +45,17 @@ export async function saveMemoryItem(input: {
   }
   if (!isDate(input.occurredOn)) return { ok: false, error: "Please pick a date." };
 
+  let personId: string | null;
   try {
-    const personId = await updateMemoryItem(input.id, {
+    personId = await updateMemoryItem(input.id, {
       content,
       occurredOn: input.occurredOn,
     });
-    if (!personId) return { ok: false, error: SAVE_ERROR };
   } catch {
     return { ok: false, error: SAVE_ERROR };
   }
+  if (!personId) return { ok: false, error: SAVE_ERROR };
+  remakeReminder(personId);
   refresh();
   return { ok: true };
 }
@@ -59,13 +63,21 @@ export async function saveMemoryItem(input: {
 export async function removeMemoryItem(id: string): Promise<Result> {
   await requireDashboardUser();
   if (!isUuid(id)) return { ok: false, error: SAVE_ERROR };
+  let personId: string | null;
   try {
-    await deleteMemoryItem(id);
+    personId = await deleteMemoryItem(id);
   } catch {
     return { ok: false, error: "That didn't delete. Please try again in a moment." };
   }
+  if (personId) remakeReminder(personId);
   refresh();
   return { ok: true };
+}
+
+// The person's memory changed, so their reminder is made again, after the
+// response so the save doesn't wait for the AI (lib/reminders/regenerate.ts).
+function remakeReminder(personId: string) {
+  after(() => regenerateReminder(personId));
 }
 
 // Adding the patient ------------------------------------------------------

@@ -70,6 +70,17 @@ Voice recognition is the biggest risk. Test it before building anything around i
 - **Checks before it can be accepted:** too short, too quiet, noisy. Thresholds: [edge-cases.md](edge-cases.md) ("Bad voice sample").
 - **Upload:** the server makes a one-time signed upload URL for `voice-samples/{person_id}/{uuid}.wav` (`web/lib/supabase/storage.ts`), the browser uploads straight to it (`web/lib/supabase/upload.ts`), and then the server checks the file is there and sets `people.voice_sample_path`. Files never pass through a Vercel function (4.5 MB body limit). Photos use the same flow (`photos/{person_id}/{uuid}.{jpg|png|webp}`).
 
+## Reminders
+
+> Status: **decided** (2026-11-15, W2.1). Code: `web/lib/reminders/`, `web/lib/ai/`, `web/lib/elevenlabs/speech.ts`, `web/lib/supabase/reminders.ts`.
+
+- **Code picks the hook, the AI only phrases it.** `lib/reminders/hook.ts` applies the order in [memory.md](memory.md) ("Choosing the conversation hook") and the never-twice rule, and the chosen item's id is saved as `reminders.hook_memory_item_id`. **gpt-5-mini** then writes one or two short sentences from name + relationship + that one item. With no hook left, the model writes name + relationship only. The model always writes the sentence because the relationship is typed freely ("I'm his son"), so it can't be pasted into a fixed template.
+- **Checked before use.** The sentence must contain the visitor's first name, stay under 160 characters, and avoid corrective words ("remember", "forget", "memory", "dementia"). Otherwise it is refused.
+- **Voice:** ElevenLabs text-to-speech, model `eleven_multilingual_v2`, voice `ELEVENLABS_VOICE_ID`, mp3 at 44.1 kHz / 128 kbps, uploaded to `reminder-audio/{person_id}/{reminder_id}.mp3`. The row is inserted only after the upload.
+- **When:** after any change to a person's memory (a dashboard edit or delete, registration; conversation processing in W2.2), run inside Next.js `after()` so the save returns at once. The patient gets no reminder.
+- **On failure** (missing keys, an AI or ElevenLabs error, a refused sentence), nothing is saved and the error is logged. The previous reminder stays current; someone with no reminder yet stays silent.
+- **Leftovers:** two changes to the same person within a few seconds can both pick the same hook. Old reminder rows and their audio stay as history; the station only uses the newest. People registered before W2.1 get their first reminder on their next memory change.
+
 ## Magic-link registration
 
 > Status: **decided** (2026-11-15, W1.4). Code: `web/app/invite/[token]/`, `web/lib/supabase/registration.ts`.

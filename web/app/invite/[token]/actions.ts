@@ -1,9 +1,12 @@
 "use server";
 
+import { after } from "next/server";
+import { regenerateReminder } from "@/lib/reminders/regenerate";
 import { getValidInvitation } from "@/lib/supabase/invitations";
 import {
   prepareRegistrationUploads,
   registerInvitedPerson,
+  registrationPersonId,
   type RegistrationInput,
 } from "@/lib/supabase/registration";
 import { isPhotoType, type UploadTarget } from "@/lib/supabase/storage";
@@ -118,7 +121,12 @@ export async function submitInvite(input: {
       voiceSamplePath: input.voiceSamplePath,
       photoPath: input.photoPath,
     });
-    if (saved.ok) return { ok: true };
+    if (saved.ok) {
+      // Their first reminder, made after the thank-you page is on its way.
+      const personId = registrationPersonId(invitation.id);
+      after(() => regenerateReminder(personId));
+      return { ok: true };
+    }
     if (saved.reason === "used") return { ok: false, reason: "used" };
     return { ok: false, reason: "error", error: SAVE_ERROR };
   } catch (err) {

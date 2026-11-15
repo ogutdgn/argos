@@ -85,8 +85,15 @@ export async function updateMemoryItem(
   return data?.person_id ?? null;
 }
 
-export async function deleteMemoryItem(id: string): Promise<void> {
+// Returns the person the item belonged to, or null if there was no such item.
+export async function deleteMemoryItem(id: string): Promise<string | null> {
   const supabase = await createClient();
-  const { error } = await supabase.from("memory_items").delete().eq("id", id);
+  const { data, error } = await supabase
+    .from("memory_items")
+    .delete()
+    .eq("id", id)
+    .select("person_id")
+    .maybeSingle();
   if (error) throw error;
+  return data?.person_id ?? null;
 }

@@ -16,10 +16,11 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 | `components/` | shared React components |
 | `components/ui/` | shadcn/ui components, themed with the tokens ([../docs/design.md](../docs/design.md)) |
 | `components/voice-recorder/` | the shared voice-sample recorder and its checks (`checks.ts`), used by adding the patient and by the magic-link form ([../docs/edge-cases.md](../docs/edge-cases.md), "Bad voice sample") |
-| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `people.ts` for people and the patient, `memory.ts` for memory items, `storage.ts` for signed upload targets and signed URLs (server), `upload.ts` for sending a file to a signed upload URL (browser), `invitations.ts` for invitations and the magic link, `registration.ts` for saving an invited person from the magic-link form, `proxy.ts` for the session refresh |
+| `lib/supabase/` | every database and storage call; `server.ts` for server code, `client.ts` for the browser, `admin.ts` for the server-only secret-key client (no login, bypasses RLS), `auth.ts` for login, `people.ts` for people and the patient, `memory.ts` for memory items, `storage.ts` for signed upload targets and signed URLs (server), `upload.ts` for sending a file to a signed upload URL (browser), `invitations.ts` for invitations and the magic link, `registration.ts` for saving an invited person from the magic-link form, `reminders.ts` for the reminders table and reminder audio, `proxy.ts` for the session refresh |
 | `proxy.ts` | refreshes the login session; sends logged-out visitors to `/login` |
-| `lib/ai/` | reminder sentence + memory extraction |
-| `lib/elevenlabs/` | transcription (Scribe) + reminder voice |
+| `lib/ai/` | `provider.ts` is the only file that calls the AI provider; `reminder.ts` writes the reminder sentence; memory extraction comes in W2.2 |
+| `lib/reminders/` | `hook.ts` chooses the hook (plain logic); `regenerate.ts` makes a person's next reminder. Call `after(() => regenerateReminder(personId))` whenever a person's memory changes ([../docs/tech.md](../docs/tech.md), "Reminders") |
+| `lib/elevenlabs/` | `speech.ts` for the reminder voice; transcription (Scribe) comes in W2.2 |
 | `lib/email/` | Resend invitations |
 
 ## Rules
@@ -36,7 +37,7 @@ Next.js (App Router, TypeScript) on Vercel: dashboard, invitations, magic-link f
 
 ## Env keys
 
-Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL` (base of the magic links, in `app/(dashboard)/invitations/actions.ts`), `SUPABASE_SECRET_KEY` (server only, in `lib/supabase/admin.ts`), `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (server only, in `lib/email/`), `GITHUB_TOKEN` (server only, in `app/plan/tasks.ts`). Add a key to the root `.env.example` and that list before reading it here.
+Full list and which part reads each: [../docs/structure.md](../docs/structure.md) ("Env keys"). Read so far: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL` (base of the magic links, in `app/(dashboard)/invitations/actions.ts`), `SUPABASE_SECRET_KEY` (server only, in `lib/supabase/admin.ts`), `RESEND_API_KEY` and `RESEND_FROM_EMAIL` (server only, in `lib/email/`), `OPENAI_API_KEY` (server only, in `lib/ai/provider.ts`), `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` (server only, in `lib/elevenlabs/`), `GITHUB_TOKEN` (server only, in `app/plan/tasks.ts`). Add a key to the root `.env.example` and that list before reading it here.
 
 ## Deploy
 

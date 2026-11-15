@@ -33,6 +33,13 @@ Priority, highest first:
 
 **Never the same hook twice in a row.**
 
+When none of those is left (decided 2026-11-15, W2.1):
+4. An older follow-up (from an earlier conversation).
+5. A fact.
+6. Nothing: the reminder is name + relationship only ("Odysseus, your son.").
+
+Within each step, what the person said themselves comes before second-hand items, then the newest first. "The last conversation" is the latest conversation that left any follow-ups.
+
 ## Important things from a conversation
 
 Extracted from the transcript after a conversation ends:
