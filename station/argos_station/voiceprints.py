@@ -384,8 +384,10 @@ def main() -> None:
 
     results = refresh(args.data_dir)
     print(f"Voiceprints in {Path(args.data_dir).resolve() / VOICEPRINTS_NAME}:")
-    if not results:
-        print("  (nobody synced yet: run python -m argos_station.sync --once)")
+    if not results and not (Path(args.data_dir) / INDEX_NAME).is_file():
+        print("  (nothing synced yet: run python -m argos_station.sync --once)")
+    elif not results:
+        print("  (nobody: sync found no people in Supabase)")
     for r in results:
         status = f"ok ({r.note})" if r.ok else f"skipped ({r.note})"
         print(f"  {r.name}: patient {'yes' if r.is_patient else 'no'}, {status}")
