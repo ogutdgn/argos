@@ -10,19 +10,18 @@ Live at https://argos-web-bay.vercel.app. The page says whether it can read from
 
 Copy the repo-root `.env.example` to `.env` (in the repo root, not in `web/`) and fill in at least `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Supabase: Project Settings → API Keys, the publishable key); `next.config.ts` loads it. Then in `web/`: `npm install` and `npm run dev`.
 
-The task plan is at http://localhost:3000/plan (not linked from the app). It needs `GITHUB_TOKEN` in `.env`: a fine-grained token with read-only access to public repositories is enough.
+The task plan is live at https://argos-web-bay.vercel.app/plan (not linked from the app). Locally it is at `/plan` too and needs `GITHUB_TOKEN` in `.env`: a fine-grained token with read-only access to public repositories is enough.
 
 ## Deploy
 
-For now, deploys to https://argos-web-bay.vercel.app are manual with the Vercel CLI. The Vercel project (`argos-web`) is not connected to GitHub yet, so merging to `main` does **not** update the live site.
+Automatic: the Vercel project (`argos-web`) is connected to `ogutdgn/argos` with **Root Directory = `web`**. Every merge to `main` deploys to https://argos-web-bay.vercel.app, and every PR gets a preview link.
 
-1. Once: `vercel login`, then `vercel link` in `web/` and pick the `argos-web` project.
-2. Each time: switch to an up-to-date `main`, then in `web/`:
+Manual fallback, only if needed: `vercel login`, then `vercel link` in the **repo root** (pick `argos-web`), then from the repo root on an up-to-date `main`:
 
 ```bash
 vercel deploy --prod
 ```
 
-Env vars for the deployed site are set in the Vercel project settings (`vercel env add <NAME> production`), not read from `.env`.
+Run it from the repo root, not `web/`: the Root Directory is already `web`.
 
-Later, for automatic deploys: the repo owner (`ogutdgn`) installs the Vercel GitHub app on `ogutdgn/argos`, then the Vercel project is connected to it (`vercel git connect`) with **Root Directory = `web`**.
+Env vars for the deployed site are set in the Vercel project settings (`vercel env add <NAME> production`), not read from `.env`.

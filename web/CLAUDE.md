@@ -35,4 +35,4 @@ Full list and which part reads each: [../docs/structure.md](../docs/structure.md
 
 ## Deploy
 
-Manual for now: `vercel deploy --prod` from `web/` (Vercel project `argos-web`). Not connected to GitHub yet, so a merge does not deploy by itself. See [../docs/tech.md](../docs/tech.md) ("Deploy").
+Automatic: Vercel project `argos-web` is connected to `ogutdgn/argos` with Root Directory `web`, so every merge to `main` deploys and every PR gets a preview. Don't deploy by hand unless asked; if you must, run `vercel deploy --prod` from the repo root, not `web/`. New env vars go into the Vercel project settings too. See [../docs/tech.md](../docs/tech.md) ("Deploy").
