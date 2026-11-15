@@ -26,8 +26,8 @@ Events, per stretch of speech, always in this order:
    ``clip_seconds`` of the speech, starting ``PRE_ROLL_MS`` before it so the first
    syllable is not cut. Sent as soon as that much audio exists, while the person is
    still talking. If they stop sooner, the clip is whatever they said, but only
-   if it is at least ``MIN_CLIP_SECONDS`` long; shorter speech gets no clip (too
-   little to recognize safely: silence over mistakes).
+   if they spoke for at least ``MIN_CLIP_SECONDS``; shorter speech gets no clip
+   (too little to recognize safely: silence over mistakes).
 3. ``SpeechStopped(at, duration)`` after ``MIN_SILENCE_MS`` of silence. ``at`` is
    when the silence began. Also sent by ``stop()`` if someone is mid-speech.
 
@@ -222,12 +222,10 @@ class SpeechDetector:
 
     def _end_speech(self, silence_start: int, silence_frames: int) -> list[SpeechEvent]:
         events: list[SpeechEvent] = []
-        if not self.clip_sent:
-            # Speech ended before the clip filled: send what was said, minus the
-            # trailing silence, if it is long enough to recognize.
-            speech = self.clip[: len(self.clip) - silence_frames]
-            if speech and len(speech) * FRAME_SAMPLES >= self.min_clip_samples:
-                events.append(self._make_clip(speech))
+        if not self.clip_sent and silence_start - self.started_sample >= self.min_clip_samples:
+            # Speech ended before the clip filled but lasted long enough to recognize
+            # (the pre-roll doesn't count): send what was said, minus the trailing silence.
+            events.append(self._make_clip(self.clip[: len(self.clip) - silence_frames]))
         started_at = self.time_at(self.started_sample)
         stopped_at = self.time_at(silence_start)
         events.append(SpeechStopped(at=stopped_at, duration=stopped_at - started_at))
@@ -480,7 +478,7 @@ def main() -> None:
         listener.start()
     except MicNotFoundError:
         raise SystemExit(1) from None
-    print(f'Listening on "{listener.device_name}". Clip length {args.seconds} s. Speak; Ctrl+C to stop.')
+    print(f"Clip length {args.seconds} s. Speak; Ctrl+C to stop.")
     if save_dir is not None:
         print(f"Clips go to {save_dir} (outside the repo; delete it when done).")
     try:
