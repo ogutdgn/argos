@@ -88,7 +88,7 @@ Commits never contain a `Co-Authored-By` line, including AI authorship trailers.
 
 ## Push and pull requests
 
-- Push only to your own fork: `git push origin <branch>`.
+- No forks: push your branch to the shared repo (`git push origin <branch>`) and open a PR into `main`.
 - Run lint and tests before opening a PR.
 - You cannot merge your own PR. Another teammate must approve it.
 - Always open a PR for any change to MVP scope in `docs/mvp.md`, or anything touching 5 or more files.

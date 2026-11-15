@@ -18,6 +18,7 @@ Voice companion for people living with dementia: it recognizes a visitor by voic
 | [docs/memory.md](docs/memory.md) | Storing, updating or reading memory, or choosing the conversation hook. |
 | [docs/tech.md](docs/tech.md) | Choosing or using any tool, library or service; working on the web app or the patient station. |
 | [docs/structure.md](docs/structure.md) | Creating files or folders, or working across `web/`, `station/` and `supabase/`. |
+| [docs/tasks.md](docs/tasks.md) | Starting, picking or finishing a task. Each task names its branch, dependencies and "done when". |
 | [docs/possible-features.md](docs/possible-features.md) | Something seems out of MVP scope. |
 | [docs/edge-cases.md](docs/edge-cases.md) | Handling unusual or failure situations. |
 

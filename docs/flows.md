@@ -5,7 +5,8 @@
 
 ## Dashboard
 
-- **Users:** the patient and their closest person, two users in the MVP.
+- **Users:** the patient and their closest person, two users in the MVP. Their accounts are created by hand in Supabase; there is no sign-up page.
+- **Adding the patient:** the patient is not invited. A dashboard user adds the patient's profile and records the patient's voice sample from the dashboard, so the station never mistakes the patient for a visitor.
 - **Built for more users:** the design must allow adding more users later (see [possible-features.md](possible-features.md)).
 - **Content:** everyone in the system and the knowledge stored about each of them, plus conversation transcripts and the important things taken from them (see Flow C).
 - **Invited people** do **not** get access to the dashboard.

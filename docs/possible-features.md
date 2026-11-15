@@ -39,6 +39,10 @@ This would replace the one-time magic link with a dashboard account with strict 
 
 Keep a small memory of things the patient says about themselves in conversations ("I miss my garden"). How it would be used (dashboard, reminder, or both) is to be decided.
 
+## Dashboard sign-up
+
+A sign-up flow for dashboard users. In the MVP, the two accounts are created by hand in Supabase.
+
 ## SMS invitations
 
 Send the magic-link invitation by SMS as well as email.
