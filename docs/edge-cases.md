@@ -35,6 +35,16 @@ The patient got the reminder, but loses track later in the same conversation.
 ### Voices from a TV, radio or speakerphone
 **Decision:** ignored in the MVP. Phone calls are a possible feature.
 
+## Station
+
+### AirPod not connected
+The AirPod is off, out of range, or not paired when a reminder should play.
+**Decision:** play nothing and log it. Never fall back to the MacBook speakers.
+
+### AirPod connected after the station starts
+The station only sees the audio devices that were there when it started (`station/argos_station/player.py`). Re-reading them would restart the audio system and break the listener's mic stream.
+**Decision (found 2026-11-15, S1.5):** until the station is restarted, an AirPod connected later is treated as not connected, so reminders stay silent. Connect the AirPod before starting the station; this goes on the demo checklist (J3.4) and is for S2.3 to keep in mind.
+
 ## Registration and memory
 
 ### Expired magic link

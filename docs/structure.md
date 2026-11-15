@@ -48,7 +48,12 @@ argos/
 │   │   ├── player.py         plays the reminder into the AirPod
 │   │   ├── tracker.py        conversation start/end, 5 min and 30 min rules
 │   │   └── recorder.py       records and uploads the conversation
-│   ├── scripts/voice_test.py the first task (see tech.md)
+│   ├── scripts/
+│   │   ├── voice_test.py     the first task (see tech.md)
+│   │   └── requirements-voice-test.txt   its own dependencies
+│   ├── data/                 local only, git-ignored: synced people and files
+│   │                         (index.json, voice-samples/, reminder-audio/),
+│   │                         voiceprints/, models/ (layout: sync.py docstring)
 │   └── requirements.txt
 │
 └── demo/                     fictional demo material only
@@ -135,4 +140,4 @@ The station retries `5xx` and network errors with backoff, and does not retry `4
 
 One root `.env` (template: [`.env.example`](../.env.example)).
 - **Web:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `STATION_API_SECRET`, `OPENAI_API_KEY`, `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `NEXT_PUBLIC_SITE_URL`, `GITHUB_TOKEN`.
-- **Station:** `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ARGOS_WEB_URL`, `STATION_API_SECRET`.
+- **Station:** `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ARGOS_WEB_URL`, `STATION_API_SECRET`. Optional: `ARGOS_AIRPOD_NAME`, part of the AirPod's output device name (default `AirPods`); reminders play only on that device.
