@@ -1,0 +1,6 @@
+speechbrain>=1.0,<2
+torch>=2.2
+torchaudio>=2.2
+soundfile>=0.12
+sounddevice>=0.4
+numpy>=1.26
