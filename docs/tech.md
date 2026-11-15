@@ -28,6 +28,7 @@ The system has two parts that share one database.
 |---|---|
 | Database, file storage (photos, voice samples), dashboard login | **Supabase** |
 | Dashboard and magic-link form | **Next.js** on Vercel |
+| Styling | **Tailwind CSS v4** + **shadcn/ui**; fonts **Source Serif 4** (headings) and **Source Sans 3** (body). Look and tokens: [design.md](design.md). |
 | Dashboard users | Supabase login; users table built for more than 2 users |
 | Magic links for invited people | Our own one-time link, stored in the database, expires after 1 week |
 | Invitation email | **Resend** (email only) |

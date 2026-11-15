@@ -11,8 +11,8 @@ argos/
 ├── .env.example              empty template; real keys only in .env
 ├── .claude/skills/           commit-style
 │
-├── docs/                     decisions: mvp, flows, memory, tech, structure,
-│                             edge-cases, possible-features
+├── docs/                     decisions: mvp, flows, memory, tech, design,
+│                             structure, edge-cases, possible-features
 │
 ├── supabase/                 shared by both parts
 │   ├── config.toml           Supabase CLI settings
@@ -28,6 +28,7 @@ argos/
 │   │   ├── plan/             live task plan, read from GitHub issues
 │   │   └── api/              e.g. "a conversation was uploaded, process it"
 │   ├── components/
+│   │   └── ui/               shadcn/ui components, themed (design.md)
 │   └── lib/
 │       ├── supabase/         database and storage access
 │       ├── ai/               reminder sentence + memory extraction
