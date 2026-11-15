@@ -45,6 +45,20 @@ Voice recognition is the biggest risk. Test it before building anything around i
 2. Check that a 3–5 second greeting is matched to the right person, and that an unknown voice is not matched.
 3. If SpeechBrain is not good enough, switch to Picovoice Eagle early.
 
+## Voice recognition threshold
+
+> Status: **decided** (2026-11-15, S0.2). Used by the station's recognizer (S1.4); voiceprints are made by `station/argos_station/voiceprints.py` with the same method.
+
+- **Threshold: 0.455** cosine similarity, with SpeechBrain ECAPA (`speechbrain/spkrec-ecapa-voxceleb`), 16 kHz mono audio and L2-normalized embeddings. At or above → that person; below → "unknown", say nothing.
+- **How it was measured** (2026-11-15, `station/scripts/voice_test.py`):
+  - 2 voices enrolled, each 25 s reading `demo/voice-script.txt` on the MacBook Pro Microphone.
+  - 3 greetings of 4 s per voice, each a different natural greeting line, and 1 stranger clip of 4 s (`unknown`).
+  - `evaluate` results: genuine scores 0.616–0.808 (voice 1: 0.756–0.808, voice 2: 0.616–0.670); highest impostor score 0.293 (voice 1 ↔ voice 2); the stranger's best match 0.084. Separable.
+  - Threshold = midpoint of the lowest genuine score (0.616) and the highest impostor score (0.293).
+  - Result: 6 of 6 correct, 0 missed, 0 wrong names, the stranger kept silent.
+- **Caveats:** a small sample (2 voices, 1 stranger clip). Voice 2's enrollment was about 9 dB quieter than voice 1's and scored lower. Re-check with the demo family's voices in J3.3.
+- **SpeechBrain is good enough**, so no switch to Picovoice Eagle.
+
 ## Deploy
 
 > Status: **decided** (2026-11-15).
