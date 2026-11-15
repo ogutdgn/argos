@@ -14,6 +14,8 @@ Voice companion for people living with dementia: it recognizes a visitor by voic
 | File | Read it when |
 |---|---|
 | [docs/mvp.md](docs/mvp.md) | Always. The source of truth for scope. |
+| [docs/flows.md](docs/flows.md) | Building any user-facing step: registration, conversation, after the conversation. |
+| [docs/memory.md](docs/memory.md) | Storing, updating or reading memory, or choosing the conversation hook. |
 | [docs/possible-features.md](docs/possible-features.md) | Something seems out of MVP scope. |
 | [docs/edge-cases.md](docs/edge-cases.md) | Handling unusual or failure situations. |
 

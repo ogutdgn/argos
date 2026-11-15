@@ -19,12 +19,15 @@ Keep the person with Alzheimer's comfortable and relaxed during conversations. T
 
 | Part | MVP |
 |---|---|
-| Initial memory | Family members add themselves: who they are, relationship to the patient, initial knowledge, voice sample. |
-| Live memory update | Once, after the conversation ends, the conversation updates that person's memory. |
+| Dashboard | Shows everyone in the system, their knowledge, and conversation summaries. Two users: the patient and their closest person. Built so more users can be added later. |
+| Invitations | From the dashboard, a person is invited by email or SMS with a magic link (valid for 1 week). No account, no dashboard access. |
+| Initial memory | Through the magic link, each person adds themselves: name, relationship to the patient, events and knowledge, photo, voice sample. |
+| Live memory update | Once, after the conversation ends: the full transcript is saved, and the important things are added to that person's memory. Also saved (as second-hand, low priority): what the visitor says about other registered people. Details: [memory.md](memory.md). |
+| Memory control | Dashboard users can edit and delete any memory item. |
 | Recognition | Automatic, when a known voice is heard. |
 | Patient's own voice | Never mistaken for a visitor. |
 | Reminder delivery | In the ear only. |
-| Reminder content | One short sentence: name + relationship + one conversation hook. |
+| Reminder content | One short sentence: name + relationship + one conversation hook. How the hook is chosen: [memory.md](memory.md). |
 
 ## Principles
 
